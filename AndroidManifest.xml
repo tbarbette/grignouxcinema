@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      android:versionCode="24"
+      android:versionName="4.4" package="be.itstudents.tom.android.cinema">
+      <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:anyDensity="true" />
+      	<uses-permission android:name="android.permission.INTERNET"/>
+		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <application android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Black.NoTitleBar"
+        >
+        <activity android:name=".CinemaHoraires"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".CinemaMenu"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".CinemaFilms"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".CinemaJournal"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".SplashScreen" android:label="@string/app_name" android:configChanges="keyboardHidden|orientation">
+		<intent-filter>
+			<action android:name="android.intent.action.MAIN" />
+			<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<service android:name="CinemaSyncer">
+		        	</service>
+		<provider android:name="CinemaProvider" 
+		    android:authorities="be.itstudents.tom.android.cinema.CinemaProvider">
+		 			</provider>
+		</application>
+
+
+    <uses-sdk android:minSdkVersion="8" />
+
+</manifest> 

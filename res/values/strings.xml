@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    
+    <string name="app_name">Cinéma Grignoux</string>
+	<string name="getBtn">Rechercher</string>
+	<string name="abouttxt">Auteur : Tom Barbette &lt;mappam0@gmail.com&gt;\n<i>Étudiant en Sciences Informatique à l\'Université de Liège</i>\n\nN\'hésitez pas à m\'envoyer vos remarques !</string>
+	
+	<string name="searchgo">Rechercher</string>
+	<string name="nodata">Pas de données pour ce jour... L\'horaire n\'est probablement pas encore fourni.</string>
+
+	<string name="slowtxt">Ce programme va rechercher les horaires des 14 prochains jours.\nDurant ce temps, il peut sembler ralenti.\n\nGlissez votre doigt de droite à gauche sur l\'écran pour passer à la journée suivante.\n\nPour plus d\'informations, et pour lancer une recherche appuyez sur le bouton menu.</string>
+	<string name="searchtxt">Rechercher</string>
+	<string name="results">Résultats</string>
+	<string name="nopast">Impossible de voir les séances du passé.\nJe suis désolé.</string>
+	<string name="aboutBtn">À propos de...</string>
+	<string name="searchBtn">Rechercher</string>
+	<string name="filmlist">Les films de la semaine</string>
+	<string name="unconnected_films">Vous êtes en mode hors-ligne\nLa liste des films de la semaine n\'est pas disponible sans connexion internet</string>
+	<string name="unconnected_journal">Vous êtes en mode hors-ligne\nLe journal n\'est pas disponible sans connexion internet</string>
+	<string name="journal">Le journal des Grignoux (beta)</string>
+	<string name="nopdf">Vous devez télécharger une visionneuse de PDF pour pouvoir lire le journal...</string>
+	<string name="server_error">Le serveur de téléchargement du journal ne semble pas fonctionner correctement...</string>
+	<string name="journalOpen">Ouvrir le PDF</string>
+</resources>
