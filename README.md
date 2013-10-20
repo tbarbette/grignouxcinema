@@ -7,5 +7,5 @@ Le lien de l'application sur le Play Store est https://play.google.com/store/app
 
 Les données sont récupérées directement depuis le site internet, et parsée en utilisant des expression régulières. 
 
-Le dossier source contient les source graphiques, les fichiers javas sont dans src.
+Le dossier source contient les source graphiques, les fichiers javas sont dans src. Le dossier res contient les ressources android.
 
