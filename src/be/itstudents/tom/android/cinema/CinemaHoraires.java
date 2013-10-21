@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -47,11 +48,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-
 import be.itstudents.tom.android.cinema.Views.*;
 import be.itstudents.tom.android.cinema.datafetcher.Horaire;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
-
 import be.itstudents.tom.android.cinema.R;
 
 
@@ -290,20 +289,20 @@ public class CinemaHoraires  extends Activity {
 			editor.putBoolean("slowMessage", true);
 			editor.commit();	            
 		}	    
-/*
-		if (settings.getBoolean("updMessage14", false)==false) {
+
+		if (settings.getBoolean("updMessage18", false)==false) {
 			Dialog d = new Dialog(this);	
-			d.setTitle("Mise à jour");
+			d.setTitle("Cinéma Grignoux devient OpenSource !");
 			TextView t = new TextView(this);
-			t.setText("     Dernière nouveauté :\n\n     -  Vous pouvez désormais accéder à la fiche d'un film en cliquant dessus. Contrairement aux horaires, cette fonctionnalité n'est pas disponible hors-ligne.");
+			t.setText(Html.fromHtml("Ce programme est désormais OpenSource ! Cela signifie que tout le monde peut contribuer à l'améliorer.<br/>\n<br/>\nRendez-vous sur <a href=\"http://github.com/MappaM/grignouxcinema\">http://github.com/MappaM/grignouxcinema</a> pour contribuer ou signaler un problème et laisser la communauté s'en occuper."));
 			float dp = getResources().getDisplayMetrics().density;
 			t.setPadding((int)(4*dp),(int)(4*dp),(int)(4*dp),(int)(4*dp));
 			d.setContentView(t);
 			d.show();
 			SharedPreferences.Editor editor = settings.edit();
-			editor.putBoolean("updMessage14", true);
+			editor.putBoolean("updMessage18", true);
 			editor.commit();	            
-		}	*/
+		}	
 	}
 	
 	private void addResultView(final Calendar date, final int index)

@@ -2,7 +2,7 @@
 <resources>    
     <string name="app_name">Cinéma Grignoux</string>
 	<string name="getBtn">Rechercher</string>
-	<string name="abouttxt">Auteur : Tom Barbette &lt;mappam0@gmail.com&gt;\n<i>Étudiant en Sciences Informatique à l\'Université de Liège</i>\n\nN\'hésitez pas à m\'envoyer vos remarques !</string>
+	<string name="abouttxt">Auteur : Tom Barbette &lt;tom.barbette@ulg.ac.be&gt;\n\n<i>Ce programme est OpenSource. Retrouvez le code sur <a href=" http://github.com/MappaM/grignouxcinema">http://github.com/MappaM/grignouxcinema</a> ! N\'hésitez pas à contribuer, c\'est facile et possible avec des notions basique de Java !\n\nPour un problème, envoyez également vos remarques sur github.</i></string>
 	
 	<string name="searchgo">Rechercher</string>
 	<string name="nodata">Pas de données pour ce jour... L\'horaire n\'est probablement pas encore fourni.</string>
