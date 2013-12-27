@@ -48,7 +48,7 @@ public class Film {
         	if (matcher.group(2).equals("description"))
         		description = matcher.group(1);
         	else if (matcher.group(2).equals("image"))
-        		imageURL = matcher.group(1);
+        		imageURL = matcher.group(1).replace("/original/","/affiche/");
         }
 		} catch (Exception e) {
 			System.err.println("La structure de la page détaille a changé !");

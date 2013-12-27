@@ -1,20 +1,15 @@
 package be.itstudents.tom.android.cinema.datafetcher;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.util.Log;
-import be.itstudents.tom.android.cinema.Cinema;
+
 import be.itstudents.tom.android.cinema.CinemaHoraires;
 import be.itstudents.tom.android.cinema.Film;
-import be.itstudents.tom.android.cinema.Seance;
 
 public class FilmList {
 	static volatile LinkedList<Film> list;
@@ -56,6 +51,7 @@ public class FilmList {
 
 		} catch (Exception e) {
 			list = null;
+			e.printStackTrace();
 		}
 	}
 
