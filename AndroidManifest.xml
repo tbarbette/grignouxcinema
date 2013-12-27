@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      android:versionCode="24"
-      android:versionName="4.4" package="be.itstudents.tom.android.cinema">
+      android:versionCode="26"
+      android:versionName="5.1" package="be.itstudents.tom.android.cinema">
       <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
