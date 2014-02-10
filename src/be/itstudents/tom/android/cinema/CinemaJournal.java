@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.Semaphore;
 
+import be.itstudents.tom.android.cinema.R.string;
 import be.itstudents.tom.android.cinema.Views.DrawableTie;
 import be.itstudents.tom.android.cinema.Views.HeaderBar;
 import be.itstudents.tom.android.cinema.Views.ScalableImage;
@@ -29,7 +30,6 @@ import android.graphics.Picture;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.Drawable;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,6 +56,7 @@ import android.widget.Toast;
 public class CinemaJournal extends Activity {
 
 	
+	public static String journalUrl = "http://www.grignoux.be"; 
 
 	/*--------------*
 	 * Menu
@@ -69,7 +70,8 @@ public class CinemaJournal extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.grignoux.be/journal/journal_Grignoux2.pdf"));
+		
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.journalUrl));
 		this.startActivity(intent);		
 		return true;
 	}
@@ -172,7 +174,7 @@ public class CinemaJournal extends Activity {
 		if (lastId == null)
 			 image = new DrawableTie(viewer, 2272, 3456, null, null);
 		else
-			 image = new DrawableTie(viewer, 2272, 3456, "http://www.arsbss.be/~tom/grignoux/" + lastId  + "-" + i,".png");
+			 image = new DrawableTie(viewer, 2272, 3456, "http://grignoux.tombarbette.be/" + lastId  + "/" + i,".png");
 
 		
 
@@ -244,7 +246,7 @@ public class CinemaJournal extends Activity {
 
 	public static void loadLast() throws Exception {
 		try {
-			String text = DownloadManager.getString("http://www.arsbss.be/~tom/grignoux/last.html");
+			String text = DownloadManager.getString("http://grignoux.tombarbette.be/last.html");
 
 			String[] val = text.split(" ");
 			lastId  = val[0];
@@ -257,7 +259,7 @@ public class CinemaJournal extends Activity {
 				public void run() {
 					if (CinemaHoraires.log) Log.d(TAG, "Cleaning thread started...");
 					if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-						String path = Environment.getExternalStorageDirectory().toString() + "/grignoux/~tom/grignoux/";
+						String path = Environment.getExternalStorageDirectory().toString() + "/grignoux/tombarbette.be/";
 
 						File file = new File(path);
 

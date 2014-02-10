@@ -1,14 +1,10 @@
 package be.itstudents.tom.android.cinema.datafetcher;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import be.itstudents.tom.android.cinema.CinemaJournal;
-import be.itstudents.tom.android.cinema.CinemaMenu;
-import be.itstudents.tom.android.cinema.SplashScreen;
 
 public class MainLoader extends Loader {
 		

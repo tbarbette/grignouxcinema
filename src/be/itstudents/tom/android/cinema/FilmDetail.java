@@ -52,7 +52,7 @@ public class FilmDetail extends Dialog {
 	private LinearLayout flip;
 	private Context context;
 	private ImageButton you;
-	
+	private ImageView affiche;
 	
 	public FilmDetail(Context context, Film film) {
 		super(context);
@@ -60,6 +60,7 @@ public class FilmDetail extends Dialog {
 		this.context = context;
 		setContentView(R.layout.cinemadetail);
 		content = (TextView)findViewById(R.id.cinemadetail_content);
+		affiche = (ImageView)findViewById(R.id.cinemadetail_affiche);
 		you = (ImageButton)findViewById(R.id.cinemadetail_you);
 		flip = (LinearLayout)findViewById(R.id.cinemadetail_flip);
 		this.setTitle(film.titre);
@@ -166,6 +167,8 @@ public class FilmDetail extends Dialog {
 
 
             }*/
+            affiche.setImageBitmap(film.getAffiche());
+            affiche.setOnClickListener(new PhotoClick(film.imageURL.replace("/affiche/","/original/")));
             } else {
             	content.setText("Désolé, la fiche de ce film n\'est pas disponible...");
             }
@@ -186,7 +189,7 @@ public class FilmDetail extends Dialog {
 			@Override
 			public void onClick(View v) {
 				context.startActivity(new Intent(Intent.ACTION_VIEW,
-						 Uri.parse("http://www.grignoux.be/" + url)));
+						 Uri.parse((url.contains("grignoux.be")?"":"http://www.grignoux.be/") + url)));
 
 			}
 	}

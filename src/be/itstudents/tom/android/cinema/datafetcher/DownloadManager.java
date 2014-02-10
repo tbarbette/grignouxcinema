@@ -9,7 +9,6 @@ import java.io.InputStream;
 
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -88,9 +87,7 @@ public class DownloadManager {
 	public static Bitmap getImage(String url) throws Exception {
 		URL u = new URL(url);
 
-
 		String path;
-
 
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 			path = Environment.getExternalStorageDirectory().toString() + "/grignoux/";
