@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.Semaphore;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import be.itstudents.tom.android.cinema.R.string;
 import be.itstudents.tom.android.cinema.Views.DrawableTie;
@@ -278,6 +280,19 @@ public class CinemaJournal extends Activity {
 
 				}
 			});
+			
+			
+			String pdfurl = DownloadManager.getString("http://www.grignoux.be/");
+			
+			Pattern p = Pattern.compile("href=\"(/system/papers/pdfs/[0-9]{3}/[0-9]{3}/[0-9]{3}/original/[a-zA-Z0-9_?.]+)\"");
+			Matcher matcher = p.matcher(pdfurl);
+			
+			if (matcher.find()) {
+				journalUrl = "http://www.grignoux.be/"+ matcher.group(1);
+			}
+			Log.d("CinemaJournal","URL du PDF du journal : "+journalUrl);
+			
+			
 
 		} catch (Exception e) {
 			lastId = null;
