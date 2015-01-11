@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import android.util.Log;
 
-import be.itstudents.tom.android.cinema.CinemaHoraires;
+import be.itstudents.tom.android.cinema.activity.ScheduleActivity;
 import be.itstudents.tom.android.cinema.Film;
 
 public class FilmList {
@@ -36,7 +36,7 @@ public class FilmList {
 		}
 		else {
 
-			Log.e(CinemaHoraires.TAG, "La structure de grignoux.be a changé !");
+			Log.e(ScheduleActivity.TAG, "La structure de grignoux.be a changé !");
 			available.release();
 			throw new Exception("La structure a changée !");
 		}

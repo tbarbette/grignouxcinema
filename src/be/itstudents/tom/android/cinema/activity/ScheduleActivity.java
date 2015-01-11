@@ -1,4 +1,4 @@
-package be.itstudents.tom.android.cinema;
+package be.itstudents.tom.android.cinema.activity;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -39,12 +39,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import be.itstudents.tom.android.cinema.service.CinemaSyncer;
+import be.itstudents.tom.android.cinema.Film;
+import be.itstudents.tom.android.cinema.views.FilmDetail;
+import be.itstudents.tom.android.cinema.R;
+import be.itstudents.tom.android.cinema.Seance;
 import be.itstudents.tom.android.cinema.views.*;
 import be.itstudents.tom.android.cinema.datafetcher.Horaire;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 
 
-public class CinemaHoraires  extends Activity {
+public class ScheduleActivity extends Activity {
 	/*--------------*
 	 * Variables
 	 *--------------*/
@@ -62,7 +68,7 @@ public class CinemaHoraires  extends Activity {
 	private LinearLayout mainlayout;
 	private ResultView searchView = null;
 
-	public static final String TAG = "CinemaHoraires";
+	public static final String TAG = "ScheduleActivity";
 	private Animation slideLeftIn;
 	private Animation slideLeftOut;
 	private Animation slideRightIn;
@@ -261,7 +267,7 @@ public class CinemaHoraires  extends Activity {
 			final ResultView firstView = new ResultView(this, dateView, false);
 
 			Cursor cur;
-			cur = Horaire.getSeancesAtDate((Calendar)dateView.clone(), CinemaHoraires.this);
+			cur = Horaire.getSeancesAtDate((Calendar)dateView.clone(), ScheduleActivity.this);
 
 			(new OnResultReceived(cur, firstView)).run();
 			
@@ -305,7 +311,7 @@ public class CinemaHoraires  extends Activity {
 			public void run() {
 
 				Cursor cur;
-				cur = Horaire.getSeancesAtDate(date, CinemaHoraires.this);
+				cur = Horaire.getSeancesAtDate(date, ScheduleActivity.this);
 
 				mHandler.post(new OnResultReceived(cur, firstView));          	
 			}};
@@ -355,7 +361,7 @@ public class CinemaHoraires  extends Activity {
 			}
 			if (goNext) {
 				goNext = false;
-				if (CinemaHoraires.log)
+				if (ScheduleActivity.log)
 					Log.i(TAG,"Le passage a la vue suivante a été reporté car les données ne sont pas encore disponibles");
 				view.table.postDelayed(new Runnable() {
 

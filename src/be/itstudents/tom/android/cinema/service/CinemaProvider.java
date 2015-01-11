@@ -1,23 +1,16 @@
-package be.itstudents.tom.android.cinema;
+package be.itstudents.tom.android.cinema.service;
 
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+import be.itstudents.tom.android.cinema.Cinema;
+import be.itstudents.tom.android.cinema.Seance;
+import be.itstudents.tom.android.cinema.activity.ScheduleActivity;
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 import android.content.ContentProvider;
@@ -43,7 +36,7 @@ public class CinemaProvider extends ContentProvider {
 
     private static final int SEARCH_PERIOD = 14;
     
-    public static final String AUTHORITY = "be.itstudents.tom.android.cinema.CinemaProvider";
+    public static final String AUTHORITY = "be.itstudents.tom.android.cinema.service.CinemaProvider";
 
     private static final Semaphore sem = new Semaphore(1);
     
@@ -137,7 +130,7 @@ public class CinemaProvider extends ContentProvider {
                 Cursor c = db.query("seances", columns, Seance.SEANCE_DATE+" > \'"+ CalendarUtils.dateFormat.format(today.getTime()) +"\' AND "+Seance.SEANCE_DATE+" < \'"+ CalendarUtils.dateFormat.format(tomorrow.getTime()) +"\'", null, null, null, null);
 
                 if (c.moveToFirst()) {
-                	if (CinemaHoraires.log) Log.i(TAG, "Séances de cinema pour pour le "+CalendarUtils.jourFormat.format(date.getTime())+" déjà  dans la base.");
+                	if (ScheduleActivity.log) Log.i(TAG, "Séances de cinema pour pour le "+CalendarUtils.jourFormat.format(date.getTime())+" déjà  dans la base.");
                         c.close();
                         db.close();
                         db = null;
@@ -199,11 +192,11 @@ public class CinemaProvider extends ContentProvider {
                                 }
 
                             }
-                            if (CinemaHoraires.log) Log.i(TAG, i + " séances de cinema récupérées pour le "+CalendarUtils.jourFormat.format(date.getTime())+".");
+                            if (ScheduleActivity.log) Log.i(TAG, i + " séances de cinema récupérées pour le "+CalendarUtils.jourFormat.format(date.getTime())+".");
 
                         }catch(Exception ex){
 
-                        	if (CinemaHoraires.log) Log.e(TAG, "Impossible de récupérer le planning !");
+                        	if (ScheduleActivity.log) Log.e(TAG, "Impossible de récupérer le planning !");
                             ex.printStackTrace();
                         }
                 }

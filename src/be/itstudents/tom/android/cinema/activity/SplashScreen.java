@@ -1,40 +1,25 @@
-package be.itstudents.tom.android.cinema;
+package be.itstudents.tom.android.cinema.activity;
 
-import java.util.Date;
-
-import be.itstudents.tom.android.cinema.CinemaHoraires.OnResultReceived;
-import be.itstudents.tom.android.cinema.datafetcher.FilmList;
-import be.itstudents.tom.android.cinema.datafetcher.Horaire;
+import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.datafetcher.Loader;
 import be.itstudents.tom.android.cinema.datafetcher.Loader.LoaderEvent;
 import be.itstudents.tom.android.cinema.datafetcher.MainLoader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 
 public class SplashScreen extends Activity {
 
@@ -52,7 +37,7 @@ public class SplashScreen extends Activity {
 		 
 		o = getResources().getConfiguration().orientation;
 				
-		bmp[0] = BitmapFactory.decodeResource(getResources(), R.drawable.sauveniere); 
+		bmp[0] = BitmapFactory.decodeResource(getResources(), R.drawable.sauveniere);
 		bmp[1] = BitmapFactory.decodeResource(getResources(), R.drawable.churchill);
 		bmp[2] = BitmapFactory.decodeResource(getResources(), R.drawable.parc);
 		
@@ -79,7 +64,7 @@ public class SplashScreen extends Activity {
 					g.setConverge(true,new Runnable(){
 						@Override
 						public void run() {
-							Intent intent = new Intent(SplashScreen.this, CinemaMenu.class);
+							Intent intent = new Intent(SplashScreen.this, MainActivity.class);
 							startActivity(intent);
 							finish();
 						}			
@@ -106,7 +91,7 @@ public class SplashScreen extends Activity {
 				g.setConverge(true,new Runnable(){
 					@Override
 					public void run() {
-						Intent intent = new Intent(SplashScreen.this, CinemaMenu.class);
+						Intent intent = new Intent(SplashScreen.this, MainActivity.class);
 						startActivity(intent);
 						finish();
 					}			

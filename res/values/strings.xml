@@ -20,4 +20,5 @@
 	<string name="nopdf">Vous devez télécharger une visionneuse de PDF pour pouvoir lire le journal...</string>
 	<string name="server_error">Le serveur de téléchargement du journal ne semble pas fonctionner correctement...</string>
 	<string name="journalOpen">Ouvrir le PDF</string>
+    <string name="loading">Chargement...</string>
 </resources>

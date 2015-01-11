@@ -1,13 +1,14 @@
-package be.itstudents.tom.android.cinema;
+package be.itstudents.tom.android.cinema.activity;
 
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Debug;
 import android.widget.TabHost;
 
-public class CinemaMenu extends TabActivity {
+import be.itstudents.tom.android.cinema.R;
+
+public class MainActivity extends TabActivity {
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -20,7 +21,7 @@ public class CinemaMenu extends TabActivity {
 	    Intent intent;  // Reusable Intent for each tab
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
-	    intent = new Intent().setClass(this, CinemaHoraires.class);
+	    intent = new Intent().setClass(this, ScheduleActivity.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("horaires").setIndicator("",
@@ -29,7 +30,7 @@ public class CinemaMenu extends TabActivity {
 	    tabHost.addTab(spec);
 
 
-	    intent = new Intent().setClass(this, CinemaFilms.class);
+	    intent = new Intent().setClass(this, FeaturedActivity.class);
 	    
 	    spec = tabHost.newTabSpec("films").setIndicator("",
 	                      res.getDrawable(R.drawable.ic_tab_films))
@@ -37,7 +38,7 @@ public class CinemaMenu extends TabActivity {
 	    tabHost.addTab(spec);
 	    
 
-	    intent = new Intent().setClass(this, CinemaJournal.class);
+	    intent = new Intent().setClass(this, JournalActivity.class);
 	    
 	    spec = tabHost.newTabSpec("journal").setIndicator("",
 	                      res.getDrawable(R.drawable.ic_tab_journal))

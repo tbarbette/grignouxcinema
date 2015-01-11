@@ -1,4 +1,4 @@
-package be.itstudents.tom.android.cinema;
+package be.itstudents.tom.android.cinema.activity;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -24,7 +24,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CinemaJournal extends Activity {
+public class JournalActivity extends Activity {
 
 	
 	public static String journalUrl = "http://www.grignoux.be"; 
@@ -47,7 +47,7 @@ public class CinemaJournal extends Activity {
 		return true;
 	}
 
-	public static final String TAG = "CinemaJournal";
+	public static final String TAG = "JournalActivity";
 
 	protected void onStop() {
 		super.onStop();
@@ -228,7 +228,7 @@ public class CinemaJournal extends Activity {
 
 				@Override
 				public void run() {
-					if (CinemaHoraires.log) Log.d(TAG, "Cleaning thread started...");
+					if (ScheduleActivity.log) Log.d(TAG, "Cleaning thread started...");
 					if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 						String path = Environment.getExternalStorageDirectory().toString() + "/grignoux/tombarbette.be/";
 
@@ -238,7 +238,7 @@ public class CinemaJournal extends Activity {
 							File[] files = file.listFiles();
 							for (File f : files) {
 								if (! f.getName().startsWith(lastId)) {
-									if (CinemaHoraires.log) Log.d(TAG, "Deleting " + f.getName() +" ...");
+									if (ScheduleActivity.log) Log.d(TAG, "Deleting " + f.getName() +" ...");
 									f.delete();
 								}
 							}
@@ -259,7 +259,7 @@ public class CinemaJournal extends Activity {
 			if (matcher.find()) {
 				journalUrl = "http://www.grignoux.be/"+ matcher.group(1);
 			}
-			Log.d("CinemaJournal","URL du PDF du journal : "+journalUrl);
+			Log.d("JournalActivity","URL du PDF du journal : "+journalUrl);
 			
 			
 

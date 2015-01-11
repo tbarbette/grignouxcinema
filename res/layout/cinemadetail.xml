@@ -43,5 +43,5 @@
     			
     			android:id="@+id/cinemadetail_content"
 				android:layout_width="wrap_content"
-				android:text="Chargement..."></TextView></ScrollView> 
+				android:text="@string/loading"></TextView></ScrollView>
 </LinearLayout>

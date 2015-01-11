@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.database.Cursor;
-import be.itstudents.tom.android.cinema.CinemaJournal;
+import be.itstudents.tom.android.cinema.activity.JournalActivity;
 
 public class MainLoader extends Loader {
 		
@@ -45,7 +45,7 @@ public class MainLoader extends Loader {
 			FilmList.loadImages();
 
 			callOnStatus(null, "Journal des grignoux");
-			CinemaJournal.loadLast();
+			JournalActivity.loadLast();
 
 
 		} catch (Exception e1) {

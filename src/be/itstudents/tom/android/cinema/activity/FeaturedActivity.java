@@ -1,5 +1,7 @@
-package be.itstudents.tom.android.cinema;
+package be.itstudents.tom.android.cinema.activity;
 
+import be.itstudents.tom.android.cinema.views.FilmDetail;
+import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.views.HeaderBar;
 import be.itstudents.tom.android.cinema.datafetcher.FilmList;
 import be.itstudents.tom.android.cinema.datafetcher.MainLoader;
@@ -17,14 +19,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CinemaFilms extends Activity {
+public class FeaturedActivity extends Activity {
 
 	@Override
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.cinemafilms);  
+		setContentView(R.layout.cinemafilms);
 		HeaderBar bar = new HeaderBar(this);
 		bar.setText(R.string.filmlist);
 		LinearLayout main = (LinearLayout)findViewById(R.id.cinameafilmslayout);
@@ -59,7 +61,7 @@ public class CinemaFilms extends Activity {
 				
 				gridview.setOnItemClickListener(new OnItemClickListener() {
 			        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			        	FilmDetail filmDetail = new FilmDetail(CinemaFilms.this, FilmList.getList().get(position));
+			        	FilmDetail filmDetail = new FilmDetail(FeaturedActivity.this, FilmList.getList().get(position));
 						filmDetail.show();
 			        }
 			    });

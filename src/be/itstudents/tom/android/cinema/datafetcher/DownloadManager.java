@@ -25,14 +25,9 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.ByteArrayBuffer;
 
-import be.itstudents.tom.android.cinema.CinemaHoraires;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.os.Environment;
-import android.util.Log;
-
 
 
 public class DownloadManager {
@@ -99,13 +94,13 @@ public class DownloadManager {
 			File file = new File(path + u.getFile());
 			Bitmap bmp = null;
 			if (file.exists()) {
-				//Log.i(CinemaHoraires.TAG, "EXIST : " + url);
+				//Log.i(ScheduleActivity.TAG, "EXIST : " + url);
 				FileInputStream fIn = new FileInputStream(file);
 				bmp = BitmapFactory.decodeStream(new BufferedInputStream(fIn));
 				fIn.close();
 			}
 			if (bmp == null) {			
-				//Log.i(CinemaHoraires.TAG, "DOWNLOAD : " + url);
+				//Log.i(ScheduleActivity.TAG, "DOWNLOAD : " + url);
 				new File(file.getParent()).mkdirs();
 
 				FileOutputStream fOut = new FileOutputStream(file);		
