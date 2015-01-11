@@ -1,37 +1,17 @@
 package be.itstudents.tom.android.cinema;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import be.itstudents.tom.android.cinema.R.string;
-import be.itstudents.tom.android.cinema.Views.DrawableTie;
-import be.itstudents.tom.android.cinema.Views.HeaderBar;
-import be.itstudents.tom.android.cinema.Views.ScalableImage;
-import be.itstudents.tom.android.cinema.Views.ScalableImage.FlipHandler;
+import be.itstudents.tom.android.cinema.R;
+import be.itstudents.tom.android.cinema.views.DrawableTie;
+import be.itstudents.tom.android.cinema.views.HeaderBar;
+import be.itstudents.tom.android.cinema.views.ScalableImage;
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager;
-import be.itstudents.tom.android.cinema.datafetcher.DownloadManager.OnImageReceived;
-import be.itstudents.tom.android.cinema.datafetcher.FilmList;
-import be.itstudents.tom.android.cinema.exceptions.NoIdException;
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Picture;
-import android.graphics.Rect;
-import android.graphics.Paint.Align;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -40,20 +20,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CinemaJournal extends Activity {
 

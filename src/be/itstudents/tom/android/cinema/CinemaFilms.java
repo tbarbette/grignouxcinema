@@ -1,13 +1,12 @@
 package be.itstudents.tom.android.cinema;
 
-import be.itstudents.tom.android.cinema.Views.HeaderBar;
+import be.itstudents.tom.android.cinema.views.HeaderBar;
 import be.itstudents.tom.android.cinema.datafetcher.FilmList;
 import be.itstudents.tom.android.cinema.datafetcher.MainLoader;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;

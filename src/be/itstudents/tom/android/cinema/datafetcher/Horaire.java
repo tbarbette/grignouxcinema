@@ -3,18 +3,10 @@ package be.itstudents.tom.android.cinema.datafetcher;
 import java.util.Calendar;
 
 import android.app.Activity;
-import android.content.ContentUris;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import be.itstudents.tom.android.cinema.CinemaHoraires;
-import be.itstudents.tom.android.cinema.Film;
+
 import be.itstudents.tom.android.cinema.Seance;
-import be.itstudents.tom.android.cinema.Views.ResultView;
-import be.itstudents.tom.android.cinema.Views.SeanceDetailedRow;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 
 public class Horaire {
