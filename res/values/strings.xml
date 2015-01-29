@@ -21,4 +21,14 @@
 	<string name="server_error">Le serveur de téléchargement du journal ne semble pas fonctionner correctement...</string>
 	<string name="journalOpen">Ouvrir le PDF</string>
     <string name="loading">Chargement...</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="drawer_open">Menu</string>
+    <string name="drawer_name">Menu</string>
+    <string name="drawer_close">Fermer</string>
+    <string name="horaire_of">Horaire du</string>
+    <string-array name="tabs_name">
+        <item >Horaires</item>
+        <item >Films de la semaine</item>
+        <item >Journal</item>
+    </string-array>
 </resources>

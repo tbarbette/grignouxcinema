@@ -6,37 +6,34 @@ import java.util.regex.Pattern;
 
 import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.views.DrawableTie;
-import be.itstudents.tom.android.cinema.views.HeaderBar;
 import be.itstudents.tom.android.cinema.views.ScalableImage;
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class JournalActivity extends Activity {
+public class JournalFragment extends Fragment {
 
 	
 	public static String journalUrl = "http://www.grignoux.be"; 
 
-	/*--------------*
-	 * Menu
-	 *--------------*/
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.journalmenu, menu);
-		return true;
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	    inflater.inflate(R.menu.journalmenu, menu);
+	    super.onCreateOptionsMenu(menu,inflater);
 	}
 	
 	@Override
@@ -49,7 +46,7 @@ public class JournalActivity extends Activity {
 
 	public static final String TAG = "JournalActivity";
 
-	protected void onStop() {
+	public void onStop() {
 		super.onStop();
 
 		if (viewer != null) {
@@ -68,14 +65,34 @@ public class JournalActivity extends Activity {
 	Handler mHandler;
 	private int currentPage = 0;
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.cinemajournal, container, false);
+		
+		main = (LinearLayout)v.findViewById(R.id.cinemajournallayout);
+		main.removeAllViews();
+		
+		try {
+
+
+			viewer = getPageViewer(currentPage);
+			main.addView(viewer, new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+
+
+		} catch (Exception e) {
+			TextView text = new TextView(getActivity());
+
+			text.setText(R.string.unconnected_journal);
+
+			text.setGravity(android.view.Gravity.CENTER);
+			main.addView(text,1,new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+		}
+		return v;
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState (Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt("currentPage", currentPage);
 	}
@@ -95,7 +112,7 @@ public class JournalActivity extends Activity {
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		DownloadManager.stopAll();
 	}
@@ -108,37 +125,19 @@ public class JournalActivity extends Activity {
 			currentPage = savedInstanceState.getInt("currentPage", 0);
 		}
 		dp = getResources().getDisplayMetrics().density;
-		setContentView(R.layout.cinemajournal);  
-		HeaderBar bar = new HeaderBar(this);
-		bar.setText(R.string.journal);
-		main = (LinearLayout)findViewById(R.id.cinemajournallayout);
-		main.removeAllViews();
-		main.addView(bar,0);
+		
+		
 		mHandler = new Handler();
 
 		
-		try {
 
-
-			viewer = getPageViewer(currentPage);
-			main.addView(viewer, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-
-
-		} catch (Exception e) {
-			TextView text = new TextView(this);
-
-			text.setText(R.string.unconnected_journal);
-
-			text.setGravity(android.view.Gravity.CENTER);
-			main.addView(text,1,new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-		}
 
 	}
 
 	
 
 	private ScalableImage getPageViewer(final int i) throws Exception {
-		final ScalableImage viewer = new ScalableImage(this);
+		final ScalableImage viewer = new ScalableImage(getActivity());
 		DownloadManager.clearAsyncQ();
 		currentPage = i;
 		final DrawableTie image;
@@ -175,7 +174,7 @@ public class JournalActivity extends Activity {
 							v.destroy();
 
 							try {
-								main.addView(getPageViewer(i - 1), new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+								main.addView(getPageViewer(i - 1), new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -228,7 +227,7 @@ public class JournalActivity extends Activity {
 
 				@Override
 				public void run() {
-					if (ScheduleActivity.log) Log.d(TAG, "Cleaning thread started...");
+					if (ScheduleListFragment.log) Log.d(TAG, "Cleaning thread started...");
 					if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 						String path = Environment.getExternalStorageDirectory().toString() + "/grignoux/tombarbette.be/";
 
@@ -238,7 +237,7 @@ public class JournalActivity extends Activity {
 							File[] files = file.listFiles();
 							for (File f : files) {
 								if (! f.getName().startsWith(lastId)) {
-									if (ScheduleActivity.log) Log.d(TAG, "Deleting " + f.getName() +" ...");
+									if (ScheduleListFragment.log) Log.d(TAG, "Deleting " + f.getName() +" ...");
 									f.delete();
 								}
 							}

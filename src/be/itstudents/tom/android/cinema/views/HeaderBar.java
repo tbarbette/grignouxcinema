@@ -1,4 +1,4 @@
-package be.itstudents.tom.android.cinema.Views;
+package be.itstudents.tom.android.cinema.views;
 
 import android.app.Activity;
 import android.graphics.Color;

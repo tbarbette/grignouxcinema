@@ -1,4 +1,4 @@
-package be.itstudents.tom.android.cinema.Views;
+package be.itstudents.tom.android.cinema.views;
 
 public class PointD {
 	public double x = 0d;

@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import be.itstudents.tom.android.cinema.Seance;
-import be.itstudents.tom.android.cinema.activity.ScheduleActivity;
+import be.itstudents.tom.android.cinema.activity.ScheduleListFragment;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 
 import android.app.Service;
@@ -59,7 +59,7 @@ public class CinemaSyncer extends Service {
     @Override
     public void onCreate() {
               super.onCreate();
-              if (ScheduleActivity.log) Log.i(TAG, "Service started");
+              if (ScheduleListFragment.log) Log.i(TAG, "Service started");
 
               timer = new Timer(TAG);
 

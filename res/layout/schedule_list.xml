@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/schedule_list_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<ViewFlipper 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flipper"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+</ViewFlipper>
+</FrameLayout>

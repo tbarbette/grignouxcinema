@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import be.itstudents.tom.android.cinema.Cinema;
 import be.itstudents.tom.android.cinema.Seance;
-import be.itstudents.tom.android.cinema.activity.ScheduleActivity;
+import be.itstudents.tom.android.cinema.activity.ScheduleListFragment;
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 import android.content.ContentProvider;
@@ -130,7 +130,7 @@ public class CinemaProvider extends ContentProvider {
                 Cursor c = db.query("seances", columns, Seance.SEANCE_DATE+" > \'"+ CalendarUtils.dateFormat.format(today.getTime()) +"\' AND "+Seance.SEANCE_DATE+" < \'"+ CalendarUtils.dateFormat.format(tomorrow.getTime()) +"\'", null, null, null, null);
 
                 if (c.moveToFirst()) {
-                	if (ScheduleActivity.log) Log.i(TAG, "Séances de cinema pour pour le "+CalendarUtils.jourFormat.format(date.getTime())+" déjà  dans la base.");
+                	if (ScheduleListFragment.log) Log.i(TAG, "Séances de cinema pour pour le "+CalendarUtils.jourFormat.format(date.getTime())+" déjà  dans la base.");
                         c.close();
                         db.close();
                         db = null;
@@ -192,11 +192,11 @@ public class CinemaProvider extends ContentProvider {
                                 }
 
                             }
-                            if (ScheduleActivity.log) Log.i(TAG, i + " séances de cinema récupérées pour le "+CalendarUtils.jourFormat.format(date.getTime())+".");
+                            if (ScheduleListFragment.log) Log.i(TAG, i + " séances de cinema récupérées pour le "+CalendarUtils.jourFormat.format(date.getTime())+".");
 
                         }catch(Exception ex){
 
-                        	if (ScheduleActivity.log) Log.e(TAG, "Impossible de récupérer le planning !");
+                        	if (ScheduleListFragment.log) Log.e(TAG, "Impossible de récupérer le planning !");
                             ex.printStackTrace();
                         }
                 }

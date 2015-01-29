@@ -1,13 +1,13 @@
 package be.itstudents.tom.android.cinema.activity;
 
-import be.itstudents.tom.android.cinema.views.FilmDetail;
 import be.itstudents.tom.android.cinema.R;
-import be.itstudents.tom.android.cinema.views.HeaderBar;
 import be.itstudents.tom.android.cinema.datafetcher.FilmList;
 import be.itstudents.tom.android.cinema.datafetcher.MainLoader;
-import android.app.Activity;
+import be.itstudents.tom.android.cinema.views.HeaderBar;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -19,21 +19,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FeaturedActivity extends Activity {
+public class FeaturedFragment extends Fragment {
 
-	@Override
 	
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.cinemafilms);
-		HeaderBar bar = new HeaderBar(this);
-		bar.setText(R.string.filmlist);
-		LinearLayout main = (LinearLayout)findViewById(R.id.cinameafilmslayout);
-		main.addView(bar,0);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.cinemafilms, container, false);
+		//TODO : Still needed?
+		LinearLayout main = (LinearLayout)v.findViewById(R.id.cinameafilmslayout);
 		
-		
-		MainLoader.getMain(this).waitForFinished(this);
+		MainLoader.getMain(getActivity()).waitForFinished(getActivity());
 		
 		try {
 			FilmList.available.acquire();
@@ -51,8 +46,8 @@ public class FeaturedActivity extends Activity {
 			}
 
 		if (FilmList.getList() != null && FilmList.getList().size() > 0) {
-				GridView gridview = (GridView)findViewById(R.id.gridview);
-				ImageAdapter adapter = new ImageAdapter(this);
+				GridView gridview = (GridView)v.findViewById(R.id.gridview);
+				ImageAdapter adapter = new ImageAdapter(getActivity());
 				float dp = getResources().getDisplayMetrics().density;
 				int numcolumn = (int) (getResources().getDisplayMetrics().widthPixels / (150 + 20*dp));
 				if (numcolumn < 2) numcolumn = 2;
@@ -61,16 +56,18 @@ public class FeaturedActivity extends Activity {
 				
 				gridview.setOnItemClickListener(new OnItemClickListener() {
 			        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			        	FilmDetail filmDetail = new FilmDetail(FeaturedActivity.this, FilmList.getList().get(position));
-						filmDetail.show();
+			        	/*FilmDetail filmDetail = new FilmDetail(FeaturedActivity.this, FilmList.getList().get(position));
+						filmDetail.show();*/
+			        	//TODO : Fragment this
 			        }
 			    });
 		} else {
-			TextView text = new TextView(this);
+			TextView text = new TextView(getActivity());
 			text.setText(R.string.unconnected_films);
 			text.setGravity(android.view.Gravity.CENTER);
 			main.addView(text,1,new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		}
+		return v;
 	}
 
 	public class ImageAdapter extends BaseAdapter {

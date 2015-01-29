@@ -1,12 +1,10 @@
-package be.itstudents.tom.android.cinema.Views;
+package be.itstudents.tom.android.cinema.views;
 
 import java.util.concurrent.Semaphore;
 
-import be.itstudents.tom.android.cinema.CinemaJournal;
+import be.itstudents.tom.android.cinema.activity.JournalFragment;
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager;
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager.OnImageReceived;
-
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,7 +16,6 @@ import android.graphics.Paint.Align;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 
 public class DrawableTie extends Drawable  implements ScalableImage.OnMove {
 
@@ -141,7 +138,7 @@ public class DrawableTie extends Drawable  implements ScalableImage.OnMove {
 
 												@Override
 												public void makeSpace() {
-													Log.d(CinemaJournal.TAG, "No more memory for DrawableTie ! Switching from economy level " + state.clearLevel + " to " + state.level + " !");
+													Log.d(JournalFragment.TAG, "No more memory for DrawableTie ! Switching from economy level " + state.clearLevel + " to " + state.level + " !");
 													DownloadManager.clearAsyncQ();
 													if (state.clearLevel  > state.level)
 														state.clearLevel = state.level;

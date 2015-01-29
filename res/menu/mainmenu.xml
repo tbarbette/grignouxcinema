@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:id="@+id/searchbtn" android:title="@string/searchBtn"  android:icon="@android:drawable/ic_menu_search"></item>
-<item android:id="@+id/aboutbtn" android:title="@string/aboutBtn" android:icon="@android:drawable/ic_menu_help"></item>
+    <item android:id="@+id/searchbtn" android:title="@string/searchBtn"  android:icon="@android:drawable/ic_menu_search"></item>
+    <item android:id="@+id/aboutbtn" android:title="@string/aboutBtn" android:icon="@android:drawable/ic_menu_help"></item>
 </menu>

@@ -1,10 +1,7 @@
-package be.itstudents.tom.android.cinema.Views;
+package be.itstudents.tom.android.cinema.views;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -14,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import be.itstudents.tom.android.cinema.Cinema;
-import be.itstudents.tom.android.cinema.CinemaHoraires;
 import be.itstudents.tom.android.cinema.Film;
 
 //NORMAL
 import be.itstudents.tom.android.cinema.R;
+import be.itstudents.tom.android.cinema.activity.ScheduleListFragment;
 
 public class SeanceDetailedRow extends TableRow {
 	String titre;
@@ -114,7 +111,7 @@ public class SeanceDetailedRow extends TableRow {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				CinemaHoraires.clickedFilm = film;
+				ScheduleListFragment.clickedFilm = film;
 	 	    	return false;
 			}
         	
