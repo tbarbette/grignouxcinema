@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -203,7 +204,8 @@ public class MainActivity extends ActionBarActivity {
 	    mTabs = getResources().getStringArray(R.array.tabs_name);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,GravityCompat.START);
+        
         // Set the adapter for the list view
         mDrawerList.setAdapter(new MenuImageAdapter(this, R.layout.drawer_list_item, mTabs, new int[]{R.drawable.ic_tab_films,R.drawable.ic_tab_horaires,R.drawable.ic_tab_journal}));
         // Set the list's click listener
