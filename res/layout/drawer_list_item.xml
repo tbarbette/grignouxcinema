@@ -4,8 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:id="@+id/drawer_list_item_text"    
     android:textColor="#fff"
+    android:background="@android:drawable/list_selector_background"
+    android:minHeight="?attr/listPreferredItemHeightSmall"
 />
