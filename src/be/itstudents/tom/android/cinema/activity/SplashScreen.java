@@ -145,6 +145,14 @@ public class SplashScreen extends Activity {
 		}		
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		if (g != null)
+			g.setRunning(false);
+		
+	}
 
 
 	class GameThread extends Thread {
@@ -184,9 +192,9 @@ public class SplashScreen extends Activity {
 			this.callback = callback;
 			this.convtime = SystemClock.uptimeMillis();
 		}
+		
 
 		@Override
-
 		public void run() {
 
 			float centerX = v.getWidth() / 2;

@@ -25,6 +25,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+//TODO : This calss uses the old way of doing things. A Pager with Fragments should be better.
 public class JournalFragment extends Fragment {
 
 	
@@ -39,7 +41,7 @@ public class JournalFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.journalUrl));
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(JournalFragment.journalUrl));
 		this.startActivity(intent);		
 		return true;
 	}
@@ -65,22 +67,21 @@ public class JournalFragment extends Fragment {
 	Handler mHandler;
 	private int currentPage = 0;
 
+	
+
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.cinemajournal, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {	
 		
-		main = (LinearLayout)v.findViewById(R.id.cinemajournallayout);
-		main.removeAllViews();
-		
+		View v = inflater.inflate(R.layout.journal, container, false);
+		main = (LinearLayout)v.findViewById(R.id.cinema_journal_layout);
+		//TODO : set loading if loading of the url is ongoing
 		try {
-
-
 			viewer = getPageViewer(currentPage);
 			main.addView(viewer, new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 
-
 		} catch (Exception e) {
+			e.printStackTrace();
 			TextView text = new TextView(getActivity());
 
 			text.setText(R.string.unconnected_journal);
@@ -110,17 +111,19 @@ public class JournalFragment extends Fragment {
 				e1.printStackTrace();
 			}
 	}
+	
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
 		DownloadManager.stopAll();
 	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		System.out.println("recreate");
+		setHasOptionsMenu(true);
 		if (savedInstanceState != null) {
 			currentPage = savedInstanceState.getInt("currentPage", 0);
 		}
@@ -128,8 +131,6 @@ public class JournalFragment extends Fragment {
 		
 		
 		mHandler = new Handler();
-
-		
 
 
 	}
@@ -145,14 +146,14 @@ public class JournalFragment extends Fragment {
 			 image = new DrawableTie(viewer, 2272, 3456, null, null);
 		else
 			 image = new DrawableTie(viewer, 2272, 3456, "http://grignoux.tombarbette.be/" + lastId  + "/" + i,".png");
-
 		
-
-		mHandler.postDelayed(new Runnable() {
-			public void run() {
-				viewer.setImage(image);
-			}
-		},100);
+		
+			Runnable currentMessage = new Runnable() {
+				public void run() {
+						viewer.setImage(image);
+				}
+			};
+			mHandler.postDelayed(currentMessage ,100);
 
 
 		viewer.setPadding((int)(8 *dp) , (int)(8 *dp) , (int)(8 *dp) , (int)(8 *dp));
@@ -169,10 +170,11 @@ public class JournalFragment extends Fragment {
 						@Override
 						public void run() {
 
-							ScalableImage v = (ScalableImage)main.getChildAt(1);
-							main.removeViewAt(1);
-							v.destroy();
-
+							if (main.getChildCount() > 0) {
+								ScalableImage v = (ScalableImage)main.getChildAt(0);
+								main.removeViewAt(0);							
+								v.destroy();
+							}
 							try {
 								main.addView(getPageViewer(i - 1), new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 							} catch (Exception e) {
@@ -194,10 +196,11 @@ public class JournalFragment extends Fragment {
 
 						@Override
 						public void run() {
-							ScalableImage v = (ScalableImage)main.getChildAt(1);
-							main.removeViewAt(1);
-							v.destroy();
-
+							if (main.getChildCount() > 0) {
+								ScalableImage v = (ScalableImage)main.getChildAt(0);
+								main.removeViewAt(0);							
+								v.destroy();
+							}
 							try {
 								main.addView(getPageViewer(i + 1), new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 							} catch (Exception e) {
@@ -227,7 +230,6 @@ public class JournalFragment extends Fragment {
 
 				@Override
 				public void run() {
-					if (ScheduleListFragment.log) Log.d(TAG, "Cleaning thread started...");
 					if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 						String path = Environment.getExternalStorageDirectory().toString() + "/grignoux/tombarbette.be/";
 
@@ -237,7 +239,6 @@ public class JournalFragment extends Fragment {
 							File[] files = file.listFiles();
 							for (File f : files) {
 								if (! f.getName().startsWith(lastId)) {
-									if (ScheduleListFragment.log) Log.d(TAG, "Deleting " + f.getName() +" ...");
 									f.delete();
 								}
 							}

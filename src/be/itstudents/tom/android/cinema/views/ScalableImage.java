@@ -217,8 +217,6 @@ public class ScalableImage extends View {
             	PointD p1 = new PointD(ev.getX(0),ev.getY(0));
          		PointD p2 = new PointD(ev.getX(1),ev.getY(1));
          		PointD center = PointD.center(p1, p2);
-            	float visibleX = (float)(ev.getX(0));
-            	float visibleY = (float)(ev.getY(0));
             	mPosX = (float)((-newPosOntouch.x) + center.x);
             	mPosY = (float)((-newPosOntouch.y) + center.y);
             	mScaleFactor = newScaleFactor;

@@ -1,9 +1,9 @@
 package be.itstudents.tom.android.cinema.datafetcher;
 
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.database.Cursor;
+import android.net.Uri;
+import be.itstudents.tom.android.cinema.Seance;
 import be.itstudents.tom.android.cinema.activity.JournalFragment;
 
 public class MainLoader extends Loader {
@@ -28,7 +28,14 @@ public class MainLoader extends Loader {
 
 		try {
 			callOnStatus(null, "Horaires de ce jour");
-			Cursor cur = Horaire.getSeancesAtDate(Calendar.getInstance(), context);
+			Cursor cur = context.getContentResolver().query(
+	    			Uri.withAppendedPath(Seance.CONTENT_URI,"preload"),
+	    			null,
+	    			null,
+	    			null,
+	    			null   				    			
+	    			
+	    			);
 			if (cur == null || cur.getCount() == 0) {
 				callOnStatus("Pas de connexion internet", "Et vous n'avez aucun horaire pré-téléchargé...");
 				sleep(8000);

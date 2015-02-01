@@ -36,20 +36,19 @@ public class Film {
 	
 	public void loadDetails() {
 		String url = "http://www.grignoux.be/films/" + id;
-		 
         String html;
 		try {
 			html = DownloadManager.getString(url);
-		
-        Pattern pattern = Pattern.compile("<meta content='(.*?)' property='og:([a-z_]+)'>",Pattern.MULTILINE |  Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(html);
-
-        while (matcher.find()) {
-        	if (matcher.group(2).equals("description"))
-        		description = matcher.group(1);
-        	else if (matcher.group(2).equals("image"))
-        		imageURL = matcher.group(1).replace("/original/","/affiche/");
-        }
+			
+	        Pattern pattern = Pattern.compile("<meta content='(.*?)' property='og:([a-z_]+)'>",Pattern.MULTILINE |  Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+	        Matcher matcher = pattern.matcher(html);
+	
+	        while (matcher.find()) {
+	        	if (matcher.group(2).equals("description"))
+	        		description = matcher.group(1);
+	        	else if (matcher.group(2).equals("image"))
+	        		imageURL = matcher.group(1).replace("/original/","/affiche/");
+	        }
 		} catch (Exception e) {
 			System.err.println("La structure de la page détaille a changé !");
 			e.printStackTrace();

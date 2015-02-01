@@ -3,7 +3,6 @@ package be.itstudents.tom.android.cinema.activity;
 import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.datafetcher.FilmList;
 import be.itstudents.tom.android.cinema.datafetcher.MainLoader;
-import be.itstudents.tom.android.cinema.views.HeaderBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 public class FeaturedFragment extends Fragment {
 
+	static int nImplementations = 0;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,5 +111,27 @@ public class FeaturedFragment extends Fragment {
 			return imageView;
 		}	
 	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		System.err.println("OnCreate : ");
+		if (savedInstanceState != null) {
+			
+			System.err.println(savedInstanceState.getString("STATE"));
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("STATE","okay");
+	}
+	
+	
+	
+	
+	
+	
 
 }

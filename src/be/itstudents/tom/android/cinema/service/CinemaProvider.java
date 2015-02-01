@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import be.itstudents.tom.android.cinema.Cinema;
 import be.itstudents.tom.android.cinema.Seance;
-import be.itstudents.tom.android.cinema.activity.ScheduleListFragment;
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 import android.content.ContentProvider;
@@ -22,7 +21,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 import android.net.NetworkInfo;
 import android.net.ConnectivityManager;
 
@@ -32,14 +30,15 @@ public class CinemaProvider extends ContentProvider {
 
     private static final String DATABASE_NAME = "plannings.db";
 
-    private static final int DATABASE_VERSION = 49;
+    private static final int DATABASE_VERSION = 52;
 
-    private static final int SEARCH_PERIOD = 14;
+    public static final int SEARCH_PERIOD = 14;
     
     public static final String AUTHORITY = "be.itstudents.tom.android.cinema.service.CinemaProvider";
 
     private static final Semaphore sem = new Semaphore(1);
     
+    private static final int PRELOAD = 7;
     private static final int SEANCES = 1;
     private static final int SEANCE_DATE = 2;
     private static final int SEANCES_CINEMA = 3;
@@ -50,6 +49,7 @@ public class CinemaProvider extends ContentProvider {
 
     static {
 	    sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+	    sUriMatcher.addURI(CinemaProvider.AUTHORITY, "preload", PRELOAD);
 	    sUriMatcher.addURI(CinemaProvider.AUTHORITY, "seances", SEANCES);
 	    sUriMatcher.addURI(CinemaProvider.AUTHORITY, "seances/*/", SEANCE_DATE);
 	    sUriMatcher.addURI(CinemaProvider.AUTHORITY, "cinema/*", SEANCES_CINEMA);
@@ -130,14 +130,12 @@ public class CinemaProvider extends ContentProvider {
                 Cursor c = db.query("seances", columns, Seance.SEANCE_DATE+" > \'"+ CalendarUtils.dateFormat.format(today.getTime()) +"\' AND "+Seance.SEANCE_DATE+" < \'"+ CalendarUtils.dateFormat.format(tomorrow.getTime()) +"\'", null, null, null, null);
 
                 if (c.moveToFirst()) {
-                	if (ScheduleListFragment.log) Log.i(TAG, "Séances de cinema pour pour le "+CalendarUtils.jourFormat.format(date.getTime())+" déjà  dans la base.");
                         c.close();
-                        db.close();
-                        db = null;
+
                 } else {
                 		c.close();
-                        db.close();
-                        db = null;
+                		
+
                         //String url = "http://www.grignoux.be/agenda-du-" + CalendarUtils.onlineFormat.format(date.getTime());
                         String url = "http://grignoux.be/films.json?date=" + CalendarUtils.onlineFormat.format(date.getTime());
                         try{                            
@@ -148,7 +146,7 @@ public class CinemaProvider extends ContentProvider {
                             Matcher matcher = pattern.matcher(html);
                             
                             
-                            int i =0;
+                            int i = 0;
                             while (matcher.find()) {
                             	 
                             	long cinema = 0;
@@ -180,23 +178,21 @@ public class CinemaProvider extends ContentProvider {
                                     				Integer.parseInt(mfilms.group(2)));
                        
                                     values.put(Seance.SEANCE_DATE, CalendarUtils.dateFormat.format(seanceDate.getTime()));
-                                    if (db != null) {
+                                    	
+                                    if (db != null)
                                     	db.close();
-                                    	db = null;
-                                    }
-                                        db= dbHelper.getWritableDatabase();
-                                        db.insert("seances", "", values);
-                                        db.close();
-                                        db = null;
-                                        i++;
+                                    SQLiteDatabase wdb = dbHelper.getWritableDatabase();
+                                    wdb.insert("seances", "", values);
+                                    wdb.close();
+                                    
+                                    db = dbHelper.getReadableDatabase();
+                                    i++;
                                 }
 
                             }
-                            if (ScheduleListFragment.log) Log.i(TAG, i + " séances de cinema récupérées pour le "+CalendarUtils.jourFormat.format(date.getTime())+".");
 
                         }catch(Exception ex){
 
-                        	if (ScheduleListFragment.log) Log.e(TAG, "Impossible de récupérer le planning !");
                             ex.printStackTrace();
                         }
                 }
@@ -227,6 +223,12 @@ public class CinemaProvider extends ContentProvider {
         case SEANCES:
             break;
 
+        case PRELOAD:
+        	thisDay = Calendar.getInstance();
+        	CalendarUtils.zero(thisDay); 
+        	
+        	break;
+        	
         case SEANCE_DATE:
         		thisDay = Calendar.getInstance();
 			try {

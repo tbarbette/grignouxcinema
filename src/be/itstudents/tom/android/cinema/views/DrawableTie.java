@@ -37,8 +37,9 @@ public class DrawableTie extends Drawable  implements ScalableImage.OnMove {
 		this.baseUrl = baseUrl;
 		this.extension = extension;
 		mHandler = new Handler();
-	}	
-
+	}
+	
+	
 	public static Semaphore available = new Semaphore(1);
 	
 		@Override
@@ -75,8 +76,6 @@ public class DrawableTie extends Drawable  implements ScalableImage.OnMove {
 					System.gc();
 				}
 
-				int tw = width / n;
-				int th = height / n;
 
 				state.bw = width / level;
 				state.bh = height / level;
