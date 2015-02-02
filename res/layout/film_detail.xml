@@ -3,19 +3,29 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-  android:padding="4dp" android:orientation="vertical">
+  android:padding="4dp" android:orientation="vertical"
+  android:gravity="center">
+  <ProgressBar
+                android:id="@+id/cinemadetail_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+  
   <ImageView android:layout_height="wrap_content"
     	android:layout_width="wrap_content"
     	android:layout_gravity="center"
-    	android:id="@+id/cinemadetail_affiche" />
+    	android:id="@+id/cinemadetail_affiche"
+    	android:visibility="gone"
+    	android:contentDescription="@string/affichefilm" />
   <RelativeLayout
-  android:layout_height="wrap_content"
+        android:layout_height="wrap_content"
     	android:layout_width="fill_parent"
   >
   
     <LinearLayout 
-    	android:id="@+id/cinemadetail_flip" 
-    
+    	android:id="@+id/cinemadetail_flip"
     	android:layout_height="wrap_content"
     	android:layout_width="wrap_content"
     	android:layout_centerInParent="true"
@@ -29,7 +39,10 @@
     	android:layout_gravity="center"
     	android:src="@drawable/youtube"
     	android:id="@+id/cinemadetail_you"
+    	android:contentDescription="@string/goyoutube"
+    	android:visibility="gone"
 		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"
     		>
     	</ImageButton>
     	</RelativeLayout>
@@ -42,5 +55,5 @@
     <TextView 	android:layout_height="wrap_content"    			
     			android:id="@+id/cinemadetail_content"
 				android:layout_width="wrap_content"
-				android:text="@string/loading"></TextView></ScrollView>
+				android:text="@string/waitingforfilm"></TextView></ScrollView>
 </LinearLayout>

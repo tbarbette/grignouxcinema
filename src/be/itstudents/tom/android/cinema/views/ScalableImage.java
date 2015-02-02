@@ -252,6 +252,7 @@ public class ScalableImage extends View {
         }
         
         case MotionEvent.ACTION_POINTER_UP: {
+        	//TODO : Use newer API
             final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_ID_MASK) 
                     >> MotionEvent.ACTION_POINTER_ID_SHIFT;
             final int pointerId = ev.getPointerId(pointerIndex);

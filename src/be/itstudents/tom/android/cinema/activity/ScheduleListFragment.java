@@ -25,7 +25,7 @@ import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 
 public class ScheduleListFragment extends Fragment {
 
-	private FilmManager mFilmManager;
+	public static FilmManager mFilmManager;
 
 	public static final String TAG = "CinemaScheduleListFragment";
 
@@ -40,14 +40,13 @@ public class ScheduleListFragment extends Fragment {
 		switch (item.getItemId()) {
 		case R.id.searchbtn:
 			SearchDialogFragment s = new SearchDialogFragment();
-			s.show(getFragmentManager(), this.TAG);
+			s.show(getFragmentManager(), ScheduleListFragment.TAG);
 			s.setSearchManager(new SearchManager() {
 				
 				@Override
 				public void doSearch(String pattern) {
 					//TODO : Use newer API
 					String columns[] = new String[] { Seance.SEANCE_ID, Seance.SEANCE_TITLE, Seance.SEANCE_DATE, Seance.SEANCE_CINEMA, Seance.SEANCE_FILMID};
-
 					/* Cursor cur = getActivity().managedQuery(
 							 Uri.withAppendedPath(
 									 Uri.withAppendedPath(
@@ -97,7 +96,7 @@ public class ScheduleListFragment extends Fragment {
         }
 
 		@Override
-	    public CharSequence getPageTitle (int position) {
+	    public CharSequence getPageTitle(int position) {
 			Calendar date = Calendar.getInstance();
 			date.add(Calendar.DATE, position);
 			CalendarUtils.zero(date);
@@ -116,7 +115,6 @@ public class ScheduleListFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             ScheduleListResultFragment resultView = new ScheduleListResultFragment();
-            resultView.setFilmManager(mFilmManager);
             resultView.setPosition(position);
             resultView.setDisplayFullDate(false);
             return resultView;
@@ -126,18 +124,29 @@ public class ScheduleListFragment extends Fragment {
         public int getCount() {
             return CinemaProvider.SEARCH_PERIOD;
         }
+        
+        @Override
+        public int getItemPosition(Object object) {
+        	   return POSITION_NONE;
+        }
     }
 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.schedule_list, container, false);
-		
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) v.findViewById(R.id.schedule_list_pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        mPager.setAdapter(mPagerAdapter);        
+        if (mPosition > 0)
+        	mPager.setCurrentItem(mPosition);
 		return v;
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 	}
 
 	@Override
@@ -145,6 +154,8 @@ public class ScheduleListFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 		if (mPager != null)
 			outState.putInt("currentPosition",mPager.getCurrentItem());
+		else
+			outState.putInt("currentPosition",mPosition);
 	}
 
 	/** Called when the activity is first created. */
@@ -158,7 +169,19 @@ public class ScheduleListFragment extends Fragment {
 	}
 	
 	public void setFilmManager(FilmManager filmManager) {
-		this.mFilmManager = filmManager;		
+		ScheduleListFragment.mFilmManager = filmManager;		
+	}
+
+	public void setPosition(int p) {
+		mPosition = p;
+		
+	}
+
+	public int getPosition() {
+		if (mPager != null)
+			return mPager.getChildCount();
+		else
+			return mPosition;
 	}
 
 }

@@ -2,7 +2,6 @@ package be.itstudents.tom.android.cinema.activity;
 
 import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.datafetcher.FilmList;
-import be.itstudents.tom.android.cinema.datafetcher.MainLoader;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,12 +27,10 @@ public class FeaturedFragment extends Fragment {
 		//TODO : Still needed?
 		LinearLayout main = (LinearLayout)v.findViewById(R.id.cinameafilmslayout);
 		
-		MainLoader.getMain(getActivity()).waitForFinished(getActivity());
 		
 		try {
 			FilmList.available.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		FilmList.available.release();
@@ -41,7 +38,6 @@ public class FeaturedFragment extends Fragment {
 			try {
 				FilmList.loadList();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -56,16 +52,18 @@ public class FeaturedFragment extends Fragment {
 				
 				gridview.setOnItemClickListener(new OnItemClickListener() {
 			        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			        	/*FilmDetail filmDetail = new FilmDetail(FeaturedActivity.this, FilmList.getList().get(position));
-						filmDetail.show();*/
-			        	//TODO : Fragment this
+			        	FilmDetailFragment filmDetail = FilmDetailFragment.newInstance(FilmList.getList().get(position));
+			        	
+						//getChildFragmentManager().beginTransaction().replace(R.id.cinameafilmslayout, filmDetail).addToBackStack(null).commit();
+			        	
+			        	//TODO : Fragment this and use dual pane or something
 			        }
 			    });
 		} else {
 			TextView text = new TextView(getActivity());
 			text.setText(R.string.unconnected_films);
 			text.setGravity(android.view.Gravity.CENTER);
-			main.addView(text,1,new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+			main.addView(text,1,new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 		}
 		return v;
 	}

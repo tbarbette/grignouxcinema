@@ -202,7 +202,7 @@ public class JournalFragment extends Fragment {
 								v.destroy();
 							}
 							try {
-								main.addView(getPageViewer(i + 1), new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+								main.addView(getPageViewer(i + 1), new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

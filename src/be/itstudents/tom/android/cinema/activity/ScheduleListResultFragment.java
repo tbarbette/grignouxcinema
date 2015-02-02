@@ -5,7 +5,6 @@ import java.util.Calendar;
 
 import be.itstudents.tom.android.cinema.Cinema;
 import be.itstudents.tom.android.cinema.Film;
-import be.itstudents.tom.android.cinema.FilmManager;
 import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.Seance;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
@@ -19,13 +18,12 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.View.OnTouchListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -89,6 +87,7 @@ public class ScheduleListResultFragment extends Fragment {
 		        }*/
 		        
 			        TextView hourt = (TextView)row.findViewById(R.id.schedule_result_row_hourtext);
+			        //TODO Use newer API
 			        SimpleDateFormat timeFormater = new SimpleDateFormat("HH:mm");
 			        hourt.setText(timeFormater.format(calendar.getTime()));
 			        
@@ -99,8 +98,9 @@ public class ScheduleListResultFragment extends Fragment {
 						
 						@Override
 						public void onClick(View v) {
-							if (mFilmManager != null) {
-								mFilmManager.showFilmDetail(film);
+							//A little dirty but prevents full redraw of the view
+							if (ScheduleListFragment.mFilmManager != null) {
+								ScheduleListFragment.mFilmManager.showFilmDetail(film);
 							}
 						}
 					});
@@ -109,7 +109,8 @@ public class ScheduleListResultFragment extends Fragment {
 
 			@Override
 			public View newView(Context context, Cursor cur, ViewGroup parent) {
-				TableRow row = (TableRow)LayoutInflater.from(context).inflate(R.layout.schedule_list_result_row, null);
+				TableRow row = (TableRow)LayoutInflater.from(context).inflate(R.layout.schedule_list_result_row, parent, false);
+				row.setClickable(true);
 				update(row, cur);
 				return row;
 			}
@@ -118,9 +119,9 @@ public class ScheduleListResultFragment extends Fragment {
 		public int delta;
 		private GridView mTable;
 		private Calendar mDate;
-		private FilmManager mFilmManager;
 		private boolean mFullDate;		
 		private ResultCursorAdapter mCursorAdapter;
+		private ProgressBar mSpinner;
 
 		
 		
@@ -132,8 +133,8 @@ public class ScheduleListResultFragment extends Fragment {
 	    }
 	    	    
 	    @Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-	    	super.onActivityCreated(savedInstanceState);
+		public void onCreate(Bundle savedInstanceState) {
+	    	super.onCreate(savedInstanceState);
 	    	if (savedInstanceState != null)
 	    		setPosition(savedInstanceState.getInt("position"));
 	    	
@@ -154,9 +155,6 @@ public class ScheduleListResultFragment extends Fragment {
 			mFullDate = full;
 		}				
 
-		public void setFilmManager(FilmManager filmManager) {
-			mFilmManager = filmManager;
-		}
 		
 		public boolean isSearch() {
 			return mDate == null;
@@ -200,7 +198,10 @@ public class ScheduleListResultFragment extends Fragment {
 	        
 			mCursorAdapter = new ResultCursorAdapter(getActivity(), null);
 			mTable.setAdapter(mCursorAdapter);
-	        
+			mSpinner = (ProgressBar)v.findViewById(R.id.result_progress);
+			
+			setListShown(false);
+			
 	        getLoaderManager().initLoader(0, null, new LoaderCallbacks<Cursor>() {
 
 				@Override
@@ -211,7 +212,10 @@ public class ScheduleListResultFragment extends Fragment {
 			        // currently filtering.
 			    	String columns[] = new String[] { Seance.SEANCE_ID, Seance.SEANCE_TITLE, Seance.SEANCE_DATE, Seance.SEANCE_CINEMA, Seance.SEANCE_FILMID};
 			    	
-		
+			    	if (getDate() == null) {
+			    		System.err.println("NULL DATE !!!");
+			    		return null;
+			    	}
 					return new CursorLoader(getActivity(),Uri.withAppendedPath(Uri.withAppendedPath(Seance.CONTENT_URI,"seances"),CalendarUtils.dateFormat.format(getDate().getTime())),   // The content URI of the words table
 			    			columns,                        // The columns to return for each row
 			    			null,                    // Selection criteria
@@ -237,7 +241,13 @@ public class ScheduleListResultFragment extends Fragment {
 	    }
 		
 		public void setListShown(boolean visible) {
-			//TODO display loader
+			if (!visible) {
+				mSpinner.setVisibility(View.VISIBLE);
+				mTable.setVisibility(View.GONE);
+			} else {
+				mSpinner.setVisibility(View.GONE);
+				mTable.setVisibility(View.VISIBLE);
+			}
 		}
 	
 }

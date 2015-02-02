@@ -15,7 +15,7 @@ public class HeaderBar extends TextView {
 		setTextColor(Color.BLACK);
 		setTypeface(Typeface.DEFAULT_BOLD);
 		setPadding(2, 4, 2, 4);
-		setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 		setGravity(Gravity.CENTER);
 	}
 

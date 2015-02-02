@@ -5,25 +5,26 @@
 	<string name="abouttxt">Auteur : Tom Barbette &lt;tom.barbette@ulg.ac.be&gt;\n\n<i>Ce programme est OpenSource. Retrouvez le code sur <a href=" http://github.com/MappaM/grignouxcinema">http://github.com/MappaM/grignouxcinema</a> ! N\'hésitez pas à contribuer, c\'est facile et possible avec des notions basique de Java !\n\nPour un problème, envoyez également vos remarques sur github.</i></string>
 	
 	<string name="searchgo">Rechercher</string>
-	<string name="nodata">Pas de données pour ce jour... L\'horaire n\'est probablement pas encore fourni.</string>
+	<string name="nodata">Pas de données pour ce jour&#8230; L\'horaire n\'est probablement pas encore fourni.</string>
 
 	<string name="slowtxt">Ce programme va rechercher les horaires des 14 prochains jours.\nDurant ce temps, il peut sembler ralenti.\n\nGlissez votre doigt de droite à gauche sur l\'écran pour passer à la journée suivante.\n\nPour plus d\'informations, et pour lancer une recherche appuyez sur le bouton menu.</string>
 	<string name="searchtxt">Rechercher</string>
 	<string name="results">Résultats</string>
 	<string name="nopast">Impossible de voir les séances du passé.\nJe suis désolé.</string>
-	<string name="aboutBtn">À propos de...</string>
+	<string name="aboutBtn">À propos de&#8230;</string>
 	<string name="searchBtn">Rechercher</string>
 	<string name="filmlist">Les films de la semaine</string>
 	<string name="unconnected_films">Vous êtes en mode hors-ligne\nLa liste des films de la semaine n\'est pas disponible sans connexion internet</string>
 	<string name="unconnected_journal">Vous êtes en mode hors-ligne\nLe journal n\'est pas disponible sans connexion internet</string>
 	<string name="journal">Le journal des Grignoux (beta)</string>
-	<string name="nopdf">Vous devez télécharger une visionneuse de PDF pour pouvoir lire le journal...</string>
-	<string name="server_error">Le serveur de téléchargement du journal ne semble pas fonctionner correctement...</string>
+	<string name="nopdf">Vous devez télécharger une visionneuse de PDF pour pouvoir lire le journal&#8230;</string>
+	<string name="server_error">Le serveur de téléchargement du journal ne semble pas fonctionner correctement&#8230;</string>
 	<string name="journalOpen">Ouvrir le PDF</string>
-    <string name="loading">Chargement...</string>
-    <string name="dialog_ok">Ok</string>
+    <string name="loading">Chargement&#8230;</string>
+    <string name="dialog_ok">OK</string>
     <string name="drawer_open">Menu</string>
     <string name="drawer_name">Menu</string>
+    <string name="goyoutube">Aller vers youtube</string>
     <string name="drawer_close">Fermer</string>
     <string name="horaire_of">Horaire du</string>
     <string-array name="tabs_name">
@@ -31,4 +32,6 @@
         <item >Films de la semaine</item>
         <item >Journal</item>
     </string-array>
+    <string name="affichefilm">Affiche du film</string>
+    <string name="waitingforfilm">Sélectionnez un film dans la liste de gauche pour afficher plus d\'informations</string>
 </resources>

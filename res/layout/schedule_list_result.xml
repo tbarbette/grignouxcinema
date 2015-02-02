@@ -3,7 +3,14 @@
     android:id="@+id/result_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
+            <ProgressBar
+                android:id="@+id/result_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
             <GridView 
                 android:id="@+id/result_table"
                 android:layout_width="match_parent"

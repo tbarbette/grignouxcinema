@@ -1,6 +1,5 @@
 package be.itstudents.tom.android.cinema.service;
 
-import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
@@ -26,17 +25,15 @@ import android.net.ConnectivityManager;
 
 public class CinemaProvider extends ContentProvider {
 
-    private static final String TAG = "CinemaProvider";
 
     private static final String DATABASE_NAME = "plannings.db";
 
-    private static final int DATABASE_VERSION = 52;
+    private static final int DATABASE_VERSION = 58;
 
     public static final int SEARCH_PERIOD = 14;
     
     public static final String AUTHORITY = "be.itstudents.tom.android.cinema.service.CinemaProvider";
 
-    private static final Semaphore sem = new Semaphore(1);
     
     private static final int PRELOAD = 7;
     private static final int SEANCES = 1;
@@ -116,7 +113,7 @@ public class CinemaProvider extends ContentProvider {
         return true;  
     } 
     
-    public void fetchData(Calendar date){
+    public synchronized void fetchData(Calendar date){
 
         if (haveInternet()) {
                prepareDb();
@@ -125,16 +122,18 @@ public class CinemaProvider extends ContentProvider {
                 Calendar today = (Calendar)date.clone();
                 CalendarUtils.zero(today);
                 Calendar tomorrow = (Calendar)today.clone();
-                tomorrow.add(Calendar.DATE, 1);
-              
-                Cursor c = db.query("seances", columns, Seance.SEANCE_DATE+" > \'"+ CalendarUtils.dateFormat.format(today.getTime()) +"\' AND "+Seance.SEANCE_DATE+" < \'"+ CalendarUtils.dateFormat.format(tomorrow.getTime()) +"\'", null, null, null, null);
+                tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+                String where = Seance.SEANCE_DATE+" > \'"+ CalendarUtils.dateFormat.format(today.getTime()) +"\' AND "+Seance.SEANCE_DATE+" < \'"+ CalendarUtils.dateFormat.format(tomorrow.getTime()) +"\'";
+                Cursor c = db.query("seances", columns, where, null, null, null, null);
 
-                if (c.moveToFirst()) {
+                if (c!=null && c.getCount()>0) {
+                	
                         c.close();
 
                 } else {
                 		c.close();
-                		
+                		System.err.println("No result");
+                		System.err.println(where);
 
                         //String url = "http://www.grignoux.be/agenda-du-" + CalendarUtils.onlineFormat.format(date.getTime());
                         String url = "http://grignoux.be/films.json?date=" + CalendarUtils.onlineFormat.format(date.getTime());
@@ -146,7 +145,6 @@ public class CinemaProvider extends ContentProvider {
                             Matcher matcher = pattern.matcher(html);
                             
                             
-                            int i = 0;
                             while (matcher.find()) {
                             	 
                             	long cinema = 0;
@@ -157,7 +155,7 @@ public class CinemaProvider extends ContentProvider {
                             	} else if ( matcher.group(1).equals("churchill")) {
                             		cinema = Cinema.CHURCHILL;
                             	}
-                            
+                            	
                             	//<span class='time'>\n12:00\n</span>\n<br>\n<a class='film_tip' data-id='3326' href='/films/3326'>Comme un lion</a>
                                 Pattern pfilms = Pattern.compile("([0-9]{2}):([0-9]{2}).*?data\\-id='([0-9]+)'.*?>(.*?)</a>",Pattern.MULTILINE |  Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
                                 Matcher mfilms = pfilms.matcher(matcher.group(2));
@@ -168,7 +166,7 @@ public class CinemaProvider extends ContentProvider {
                                     values.put(Seance.SEANCE_FILMID, mfilms.group(3));
                                     values.put(Seance.SEANCE_CINEMA,Long.toString(cinema));
                                         
-
+                                    System.out.println(values.get(Seance.SEANCE_TITLE));
                                     
                                     Calendar seanceDate = Calendar.getInstance();
                                     seanceDate.set(	date.get(Calendar.YEAR),
@@ -179,18 +177,12 @@ public class CinemaProvider extends ContentProvider {
                        
                                     values.put(Seance.SEANCE_DATE, CalendarUtils.dateFormat.format(seanceDate.getTime()));
                                     	
-                                    if (db != null)
-                                    	db.close();
-                                    SQLiteDatabase wdb = dbHelper.getWritableDatabase();
-                                    wdb.insert("seances", "", values);
-                                    wdb.close();
                                     
-                                    db = dbHelper.getReadableDatabase();
-                                    i++;
+                                    db.insert("seances", "", values);
+                                    
                                 }
 
                             }
-
                         }catch(Exception ex){
 
                             ex.printStackTrace();
@@ -201,20 +193,15 @@ public class CinemaProvider extends ContentProvider {
 
     }
     SQLiteDatabase db = null;
-    public void prepareDb() {
+    public  synchronized void prepareDb() {
     	if (db==null) {
-            db = dbHelper.getReadableDatabase();
+            db = dbHelper.getWritableDatabase();
             
     	}
     }
     @Override
     public synchronized Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
     	
-    	try {
-			sem.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
     	
     	Calendar thisDay = null;
 		Calendar tomorrowDay;
@@ -235,9 +222,9 @@ public class CinemaProvider extends ContentProvider {
 				thisDay.setTime(CalendarUtils.dateFormat.parse(uri.getPathSegments().get(1)));
 				CalendarUtils.zero(thisDay); 
                 tomorrowDay = (Calendar)thisDay.clone();
-                tomorrowDay.add(Calendar.DATE, 1);
+                tomorrowDay.add(Calendar.DAY_OF_YEAR, 1);
                 where = Seance.SEANCE_DATE+" > \'"+CalendarUtils.dateFormat.format(thisDay.getTime()) +"\' AND "+Seance.SEANCE_DATE+" < \'"+ CalendarUtils.dateFormat.format(tomorrowDay.getTime()) +"\'";
-} catch (ParseException e) {
+			} catch (ParseException e) {
 				
 				e.printStackTrace();
 			}
@@ -256,7 +243,7 @@ public class CinemaProvider extends ContentProvider {
 	
 				CalendarUtils.zero(thisDay); 
 				Calendar searchTo = (Calendar)thisDay.clone();
-				searchTo.add(Calendar.DATE, SEARCH_PERIOD);
+				searchTo.add(Calendar.DAY_OF_YEAR, SEARCH_PERIOD);
                 where = Seance.SEANCE_DATE+" > \'"+ CalendarUtils.dateFormat.format(thisDay.getTime()) +"\' AND "+Seance.SEANCE_DATE+" < \'"+ CalendarUtils.dateFormat.format(searchTo.getTime()) +"\' AND " + Seance.SEANCE_TITLE+" LIKE( \'%"+ uri.getPathSegments().get(1) +"%\' )";
                 break;
         case CLOSE:
@@ -267,7 +254,6 @@ public class CinemaProvider extends ContentProvider {
       
         	break;
         default:
-        	 sem.release();
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
         if (thisDay != null) {
@@ -281,7 +267,6 @@ public class CinemaProvider extends ContentProvider {
         c = qb.query(db, projection, where, selectionArgs, null, null, "date");
 
         c.setNotificationUri(getContext().getContentResolver(), uri);
-        sem.release();
         return c;
     }
 

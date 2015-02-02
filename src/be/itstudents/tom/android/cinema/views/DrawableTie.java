@@ -209,6 +209,7 @@ public class DrawableTie extends Drawable  implements ScalableImage.OnMove {
 		public void draw(Canvas canvas) {
 
 			float[] values = new float[9];
+			//TODO Use newer API
 			canvas.getMatrix().getValues(values);
 			float sleft = -values[Matrix.MTRANS_X];
 			float stop = -values[Matrix.MTRANS_Y];

@@ -9,11 +9,9 @@ import be.itstudents.tom.android.cinema.activity.JournalFragment;
 public class MainLoader extends Loader {
 		
 	private Activity context;
-	private static MainLoader main;
 
 	public MainLoader(Activity context) {
 		this.context = context;
-		this.main = this;
 	}
 	
 	public static MainLoader getMain(Activity a) {

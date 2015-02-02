@@ -80,6 +80,7 @@ public class MainActivity extends ActionBarActivity {
         
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(selected, true);
+        
         setTitle(mTabs[selected]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
@@ -135,7 +136,6 @@ public class MainActivity extends ActionBarActivity {
  	        
  	    	row.setText(items[position]);
  	    	row.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(images[position]), null, null, null);
-
  	        return row;
  	    }
 
@@ -150,6 +150,8 @@ public class MainActivity extends ActionBarActivity {
  	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
+
 	    
 	    setContentView(R.layout.cinemamenu);
 	    
@@ -171,7 +173,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,GravityCompat.START);
         
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new MenuImageAdapter(this, R.layout.drawer_list_item, mTabs, new int[]{R.drawable.ic_tab_films,R.drawable.ic_tab_horaires,R.drawable.ic_tab_journal},getLayoutInflater()));
+        mDrawerList.setAdapter(new MenuImageAdapter(this, R.layout.drawer_list_item, mTabs, new int[]{R.drawable.ic_tab_films_on_center,R.drawable.ic_tab_horaires_on_center,R.drawable.ic_tab_journal_on_center},getLayoutInflater()));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         
@@ -195,7 +197,8 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        
+        
         
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -214,6 +217,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override 
 	public void onPause() {
 		super.onPause();
+		
 	}
 	
 	@Override
