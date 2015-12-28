@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="primary" type="color">#673AB7</item>
+    <item name="text_primary" type="color">#ffffffa0</item>
+    <item name="primary_dark" type="color">#512DA8</item>
+    <item name="text_primary_dark" type="color">#ffffffc0</item>
+    <item name="primary_darker" type="color">#4527A0</item>
+    <item name="text_primary_darker" type="color">#ffffffc0</item>
+    <item name="accent" type="color">#F50057</item>
+    <item name="text_accent" type="color">#ffffffa0</item>
+    <item name="drawer" type="color">@color/primary</item>
+    <item name="drawer_separator" type="color">@color/primary_darker</item>
+    <item name="drawer_item" type="color">@color/primary_dark</item>
+    <item name="drawer_text" type="color">@color/text_primary_dark</item>
+    <item name="strip_background" type="color">@color/primary_darker</item>
+    <item name="strip_text" type="color">@color/text_primary_darker</item>
+
+</resources>
