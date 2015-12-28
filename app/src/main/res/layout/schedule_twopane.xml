@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/schedule_fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" />
+
+
+    <fragment
+        android:id="@+id/schedule_film_detail_fragment"
+        android:name="be.itstudents.tom.android.cinema.activity.FilmDetailFragment"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="2" />
+
+</LinearLayout>
