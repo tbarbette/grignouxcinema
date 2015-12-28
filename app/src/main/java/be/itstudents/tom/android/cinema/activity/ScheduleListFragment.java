@@ -1,5 +1,6 @@
 package be.itstudents.tom.android.cinema.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +28,8 @@ import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 public class ScheduleListFragment extends DualPaneListFragment {
 
     public static final String TAG = "CinemaScheduleListFragment";
+    private static final int SEARCH_LOADER = 0;
+    private static final String SEARCH_TAG = "SEARCH_FRAGMENT";
     private static ScheduleListFragment instance;
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -63,25 +66,15 @@ public class ScheduleListFragment extends DualPaneListFragment {
                 s.setSearchManager(new SearchManager() {
 
                     @Override
-                    public void doSearch(String pattern) {
-                        //TODO : Use newer API
-                        String columns[] = new String[]{Seance.SEANCE_ID, Seance.SEANCE_TITLE, Seance.SEANCE_DATE, Seance.SEANCE_CINEMA, Seance.SEANCE_FILMID};
-                    /* Cursor cur = getActivity().managedQuery(
-                             Uri.withAppendedPath(
-									 Uri.withAppendedPath(
-											 Seance.CONTENT_URI,"search")
-											 ,pattern),
-											 columns, null, null, Seance.SEANCE_DATE + " ASC");
-
-					 if (searchView != null) mainlayout.removeView(searchView);
-					 searchView = new ResultView(getActivity(), null, true);
-
-					 refreshDate(null);
-
-					 mainlayout.removeView(flipView);
-
-					 searchView.displayResult(cur);
-					 mainlayout.addView(searchView);*/
+                    public void doSearch(final String pattern) {
+                        ScheduleListResultFragment resultView = new ScheduleListResultFragment();
+                        resultView.setUri(Uri.withAppendedPath(
+                                Uri.withAppendedPath(
+                                        Seance.CONTENT_URI, "search")
+                                , pattern));
+                        resultView.setDisplayFullDate(true);
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.schedule_fragment_container, resultView, SEARCH_TAG).addToBackStack(null).commit();
                     }
                 });
                 return true;
@@ -164,8 +157,10 @@ public class ScheduleListFragment extends DualPaneListFragment {
         @Override
         public Fragment getItem(int position) {
             ScheduleListResultFragment resultView = new ScheduleListResultFragment();
+
             resultView.setPosition(position);
             resultView.setDisplayFullDate(false);
+            resultView.setUri(Uri.withAppendedPath(Uri.withAppendedPath(Seance.CONTENT_URI, "seances"), CalendarUtils.dateFormat.format(resultView.getDate().getTime())));
             return resultView;
         }
 

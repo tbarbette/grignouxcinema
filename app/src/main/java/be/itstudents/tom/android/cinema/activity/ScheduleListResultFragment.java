@@ -36,6 +36,11 @@ public class ScheduleListResultFragment extends Fragment {
     private boolean mFullDate;
     private ResultCursorAdapter mCursorAdapter;
     private ProgressBar mSpinner;
+    private Uri uri;
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
 
     public void setPosition(int position) {
         this.delta = position;
@@ -123,11 +128,7 @@ public class ScheduleListResultFragment extends Fragment {
                 // currently filtering.
                 String columns[] = new String[]{Seance.SEANCE_ID, Seance.SEANCE_TITLE, Seance.SEANCE_DATE, Seance.SEANCE_CINEMA, Seance.SEANCE_FILMID};
 
-                if (getDate() == null) {
-                    System.err.println("NULL DATE !!!");
-                    return null;
-                }
-                return new CursorLoader(getActivity(), Uri.withAppendedPath(Uri.withAppendedPath(Seance.CONTENT_URI, "seances"), CalendarUtils.dateFormat.format(getDate().getTime())),   // The content URI of the words table
+                return new CursorLoader(getActivity(), uri,   // The content URI of the words table
                         columns,                        // The columns to return for each row
                         null,                    // Selection criteria
                         null,                     // Selection criteria
@@ -199,28 +200,16 @@ public class ScheduleListResultFragment extends Fragment {
                     break;
             }
 
-		       /* if (mFullDate) {
-		        	TextView t = new TextView(context);
-		        	SimpleDateFormat timeFormater = new SimpleDateFormat("EEE dd/MM");
-
-		        	t.setText(timeFormater.format(calendar.getTime()));
-
-			        t.setGravity(Gravity.RIGHT);
-			        t.setLayoutParams(new LayoutParams(
-			                  LayoutParams.MATCH_PARENT,
-			                  LayoutParams.WRAP_CONTENT));
-
-			        t.setPadding(   (int)(getContext().getResources().getDisplayMetrics().density * 4),
-		                    0,
-		                    (int)(getContext().getResources().getDisplayMetrics().density * 2),
-		                    0);
-			        t.setTextSize(15);
-			        this.addView(t);
-		        }*/
 
             TextView hourt = (TextView) row.findViewById(R.id.schedule_result_row_hourtext);
             //TODO Use newer API
-            SimpleDateFormat timeFormater = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat timeFormater;
+
+            if (mFullDate) {
+                timeFormater = new SimpleDateFormat("EEE dd/MM HH:mm");
+            } else {
+                timeFormater = new SimpleDateFormat("HH:mm");
+            }
             hourt.setText(timeFormater.format(calendar.getTime()));
 
             TextView titreText = (TextView) row.findViewById(R.id.schedule_result_row_titretext);
