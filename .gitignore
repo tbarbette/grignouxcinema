@@ -1,0 +1,6 @@
+local.properties
+app/gen
+gen
+app/build
+gradle/
+.gradle/
