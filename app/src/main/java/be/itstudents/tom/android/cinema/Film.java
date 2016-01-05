@@ -7,6 +7,9 @@ import java.util.regex.Pattern;
 
 import be.itstudents.tom.android.cinema.datafetcher.DownloadManager;
 
+/**
+ * Represent a film and its informations like the title, the id, a description, ...
+ */
 public class Film {
     public String titre;
     public String id;
@@ -25,7 +28,13 @@ public class Film {
         this.littleDescription = littleDescription;
     }
 
-    public Bitmap getAffiche() throws Exception {
+    /**
+     * Return the bitmap of the poster of the film
+     *
+     * @return the poster as Bitmap
+     * @throws Exception if the poster could not be downloaded
+     */
+    public Bitmap getPoster() throws Exception {
         if (imageURL == null) {
             loadDetails();
 
@@ -35,6 +44,9 @@ public class Film {
         return affiche;
     }
 
+    /**
+     * Load details of the film from the grignoux website using the film ID
+     */
     public void loadDetails() {
         String url = "http://www.grignoux.be/films/" + id;
         String html;

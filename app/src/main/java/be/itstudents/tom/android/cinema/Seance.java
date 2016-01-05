@@ -2,6 +2,9 @@ package be.itstudents.tom.android.cinema;
 
 import android.net.Uri;
 
+/**
+ * Constants for queries
+ */
 public class Seance {
 
     public static final String SEANCE_ID = "_id";

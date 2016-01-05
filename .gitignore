@@ -4,3 +4,4 @@ gen
 app/build
 gradle/
 .gradle/
+.idea/

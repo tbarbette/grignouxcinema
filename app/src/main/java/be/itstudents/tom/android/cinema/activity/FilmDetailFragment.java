@@ -92,7 +92,7 @@ public class FilmDetailFragment extends Fragment {
 
         protected Film doInBackground(Film... f) {
             try {
-                f[0].getAffiche();
+                f[0].getPoster();
                 return f[0];
                 //TODO Display an error text
             } catch (Exception e) {

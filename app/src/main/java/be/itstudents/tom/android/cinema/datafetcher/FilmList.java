@@ -16,7 +16,7 @@ public class FilmList {
     static volatile LinkedList<Film> list;
 
     public static void loadList() throws Exception {
-        list = new LinkedList<Film>();
+        list = new LinkedList<>();
 
         String html = DownloadManager.getString("http://www.grignoux.be");
 
@@ -44,7 +44,7 @@ public class FilmList {
         try {
 
             for (int i = 0; i < list.size(); i++) {
-                list.get(i).getAffiche();
+                list.get(i).getPoster();
             }
 
         } catch (Exception e) {

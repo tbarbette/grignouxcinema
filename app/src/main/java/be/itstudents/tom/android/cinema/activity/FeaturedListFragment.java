@@ -113,7 +113,7 @@ public class FeaturedListFragment extends DualPaneListFragment {
 
             try {
 
-                imageView.setImageBitmap(FilmList.getList().get(position).getAffiche());
+                imageView.setImageBitmap(FilmList.getList().get(position).getPoster());
             } catch (Exception e) {
                 e.printStackTrace();
             }
