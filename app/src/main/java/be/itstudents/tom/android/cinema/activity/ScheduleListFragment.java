@@ -27,7 +27,7 @@ import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 
 public class ScheduleListFragment extends DualPaneListFragment {
 
-    public static final String TAG = "CinemaScheduleListFragment";
+    public static final String TAG = "CinemaSchedule";
     private static final int SEARCH_LOADER = 0;
     private static final String SEARCH_TAG = "SEARCH_FRAGMENT";
     private static ScheduleListFragment instance;
