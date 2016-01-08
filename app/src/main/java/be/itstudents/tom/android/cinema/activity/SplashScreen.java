@@ -136,16 +136,12 @@ public class SplashScreen extends Activity {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                    int height) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-
             g.setRunning(true);
             g.start();
-
         }
 
         @Override
