@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 23
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "be.itstudents.tom.android.cinema"
         minSdkVersion 7
-        targetSdkVersion 17
+        targetSdkVersion 21
     }
 
     buildTypes {
@@ -19,5 +19,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile group: 'commons-io', name: 'commons-io', version: '2.0.1'
 }

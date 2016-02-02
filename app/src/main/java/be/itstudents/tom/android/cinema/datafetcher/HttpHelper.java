@@ -1,13 +1,8 @@
 package be.itstudents.tom.android.cinema.datafetcher;
 
-import org.apache.http.HttpResponse;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
+@Deprecated
 public class HttpHelper {
-
+/*
     public static String request(HttpResponse response) {
         String result = "";
         try {
@@ -24,5 +19,5 @@ public class HttpHelper {
             result = "Error";
         }
         return result;
-    }
+    }*/
 }

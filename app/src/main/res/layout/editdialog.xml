@@ -18,9 +18,30 @@
 
         <EditText
             android:id="@+id/text"
-            android:layout_width="150dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/chkSauveniere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Sauvenière" />
+
+    <CheckBox
+        android:id="@+id/chkChurchill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Churchill" />
+
+    <CheckBox
+        android:id="@+id/chkParc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Parc" />
 
     <Button
         android:id="@+id/searchgo"

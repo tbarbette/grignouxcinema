@@ -62,7 +62,7 @@ public class FilmDetailFragment extends Fragment {
 
 
         mSpinner = (ProgressBar) view.findViewById(R.id.cinemadetail_progress);
-        if (mFilm != null)
+        if (mFilm != null && mFilm.id != null)
             updateFilm();
         else
             mContent.setText(R.string.waitingforfilm);
@@ -106,7 +106,8 @@ public class FilmDetailFragment extends Fragment {
             mContent.setVisibility(View.VISIBLE);
             mAffiche.setVisibility(View.VISIBLE);
             mYoutube.setVisibility(View.VISIBLE);
-            mContent.setText(Html.fromHtml(f.description));
+            if (f.description != null)
+                mContent.setText(Html.fromHtml(Html.fromHtml(f.description).toString()));
             mAffiche.setImageBitmap(f.affiche);
             mYoutube.setOnClickListener(new OnClickListener() {
                 @Override

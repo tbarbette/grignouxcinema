@@ -4,23 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.ByteArrayBuffer;
+import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.URISyntaxException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -62,10 +53,11 @@ public class DownloadManager {
         }
     }
 
-    public static HttpResponse get(String url) throws Exception {
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(url);
-        return client.execute(request);
+    public static String get(String url) throws Exception {
+        URL u = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+        InputStream in = new BufferedInputStream(conn.getInputStream());
+        return IOUtils.toString(in);
 
     }
 
@@ -74,7 +66,7 @@ public class DownloadManager {
         if (cacheString.get(url) != null) {
             cacheString.get(url);
         } else {
-            cacheString.put(url, HttpHelper.request(get(url)));
+            cacheString.put(url, get(url));
         }
         return cacheString.get(url);
     }
@@ -92,66 +84,35 @@ public class DownloadManager {
             }
 
             File file = new File(path + u.getFile());
-            Bitmap bmp = null;
-            if (file.exists()) {
-                //Log.i(ScheduleActivity.TAG, "EXIST : " + url);
-                FileInputStream fIn = new FileInputStream(file);
-                bmp = BitmapFactory.decodeStream(new BufferedInputStream(fIn));
-                fIn.close();
-            }
-            if (bmp == null) {
+
+            if (!file.exists()) {
                 //Log.i(ScheduleActivity.TAG, "DOWNLOAD : " + url);
                 new File(file.getParent()).mkdirs();
 
                 FileOutputStream fOut = new FileOutputStream(file);
                 try {
 
-                    HttpGet httpRequest = null;
+                    HttpURLConnection conn = (HttpURLConnection) (new URL(url).openConnection());
+                    conn.setConnectTimeout(4500);
+                    conn.setReadTimeout(4500);
 
-                    try {
-                        httpRequest = new HttpGet((new URL(url)).toURI());
-
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                    HttpParams params = new BasicHttpParams();
-                    HttpConnectionParams.setConnectionTimeout(params, 4500);
-                    HttpConnectionParams.setSoTimeout(params, 4500);
-                    HttpClient httpclient = new DefaultHttpClient(params);
-
-                    HttpResponse response = httpclient.execute(httpRequest);
-
-                    HttpEntity entity = response.getEntity();
-
-                    BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entity);
-
-                    int length = (int) bufHttpEntity.getContentLength();
-                    InputStream input = bufHttpEntity.getContent();
-                    BufferedInputStream bis = new BufferedInputStream(input);
-
-                    ByteArrayBuffer baf = new ByteArrayBuffer((length > 4096) ? length : 4096);
-                    int current = 0;
-                    while ((current = bis.read()) != -1) {
-                        baf.append((byte) current);
-
-
-                    }
-
-                    fOut.write(baf.toByteArray());
+                    InputStream input = conn.getInputStream();
+                    IOUtils.copy(input, fOut);
+                    input.close();
                     fOut.close();
-
-                    bmp = BitmapFactory.decodeByteArray(baf.toByteArray(), 0, baf.length());
                 } finally {
                     fOut.close();
                 }
 
             }
+            FileInputStream fIn = new FileInputStream(file);
+            Bitmap bmp = BitmapFactory.decodeStream(new BufferedInputStream(fIn));
+            fIn.close();
             return bmp;
-        } else {
-
-            InputStream input = (InputStream) u.getContent();
-            return BitmapFactory.decodeStream(input);
         }
+        InputStream input = (InputStream) u.getContent();
+        return BitmapFactory.decodeStream(input);
+
     }
 
     public static void getImageAsync(String string, OnImageReceived onReceived) {

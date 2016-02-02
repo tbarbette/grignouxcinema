@@ -30,7 +30,7 @@ public class CinemaProvider extends ContentProvider {
     public static final int SEARCH_PERIOD = 14;
     public static final String AUTHORITY = "be.itstudents.tom.android.cinema.service.CinemaProvider";
     private static final String DATABASE_NAME = "plannings.db";
-    private static final int DATABASE_VERSION = 58;
+    private static final int DATABASE_VERSION = 59;
     private static final int PRELOAD = 7;
     private static final int SEANCES = 1;
     private static final int SEANCE_DATE = 2;
@@ -49,6 +49,7 @@ public class CinemaProvider extends ContentProvider {
         sUriMatcher.addURI(CinemaProvider.AUTHORITY, "cinema/*/seances", SEANCES_CINEMA);
         sUriMatcher.addURI(CinemaProvider.AUTHORITY, "cinema/*/seances/*", SEANCE_CINEMA);
         sUriMatcher.addURI(CinemaProvider.AUTHORITY, "search/*", SEANCES_SEARCH);
+        sUriMatcher.addURI(CinemaProvider.AUTHORITY, "search/", SEANCES_SEARCH);
         sUriMatcher.addURI(CinemaProvider.AUTHORITY, "close", CLOSE);
     }
 
@@ -107,8 +108,6 @@ public class CinemaProvider extends ContentProvider {
 
             } else {
                 c.close();
-                System.err.println("No result");
-                System.err.println(where);
 
                 //String url = "http://www.grignoux.be/agenda-du-" + CalendarUtils.onlineFormat.format(date.getTime());
                 String url = "http://grignoux.be/films.json?date=" + CalendarUtils.onlineFormat.format(date.getTime());
@@ -218,7 +217,15 @@ public class CinemaProvider extends ContentProvider {
                 CalendarUtils.zero(thisDay);
                 Calendar searchTo = (Calendar) thisDay.clone();
                 searchTo.add(Calendar.DAY_OF_YEAR, SEARCH_PERIOD);
-                where = Seance.SEANCE_DATE + " > \'" + CalendarUtils.dateFormat.format(thisDay.getTime()) + "\' AND " + Seance.SEANCE_DATE + " < \'" + CalendarUtils.dateFormat.format(searchTo.getTime()) + "\' AND " + Seance.SEANCE_TITLE + " LIKE( \'%" + uri.getPathSegments().get(1) + "%\' )";
+                String cinemas = "";
+                if (uri.getQueryParameter("churchill") != null)
+                    cinemas += Cinema.CHURCHILL + ",";
+                if (uri.getQueryParameter("sauveniere") != null)
+                    cinemas += Cinema.SAUVENIERE + ",";
+                if (uri.getQueryParameter("parc") != null)
+                    cinemas += Cinema.PARC + ",";
+                cinemas = cinemas.substring(0, cinemas.length() - 1);
+                where = Seance.SEANCE_CINEMA + " IN (" + cinemas + ") AND " + Seance.SEANCE_DATE + " > \'" + CalendarUtils.dateFormat.format(thisDay.getTime()) + "\' AND " + Seance.SEANCE_DATE + " < \'" + CalendarUtils.dateFormat.format(searchTo.getTime()) + "\'" + (uri.getPathSegments().size() > 1 ? " AND " + Seance.SEANCE_TITLE + " LIKE( \'%" + uri.getPathSegments().get(1) + "%\' )" : "");
                 break;
             case CLOSE:
                 if (db != null) {

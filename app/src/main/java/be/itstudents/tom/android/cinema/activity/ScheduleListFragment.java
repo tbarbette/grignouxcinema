@@ -14,8 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Set;
 
+import be.itstudents.tom.android.cinema.Cinema;
 import be.itstudents.tom.android.cinema.FilmManager;
 import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.Seance;
@@ -66,12 +69,19 @@ public class ScheduleListFragment extends DualPaneListFragment {
                 s.setSearchManager(new SearchManager() {
 
                     @Override
-                    public void doSearch(final String pattern) {
+                    public void doSearch(final String pattern, Set<Long> cinemas) {
                         ScheduleListResultFragment resultView = new ScheduleListResultFragment();
-                        resultView.setUri(Uri.withAppendedPath(
+                        Uri.Builder uri = Uri.withAppendedPath(
                                 Uri.withAppendedPath(
                                         Seance.CONTENT_URI, "search")
-                                , pattern));
+                                , pattern).buildUpon();
+                        if (cinemas.contains(Cinema.PARC))
+                            uri.appendQueryParameter("parc", "1");
+                        if (cinemas.contains(Cinema.CHURCHILL))
+                            uri.appendQueryParameter("churchill", "1");
+                        if (cinemas.contains(Cinema.SAUVENIERE))
+                            uri.appendQueryParameter("sauveniere", "1");
+                        resultView.setUri(uri.build());
                         resultView.setDisplayFullDate(true);
                         getFragmentManager().beginTransaction()
                                 .replace(R.id.schedule_fragment_container, resultView, SEARCH_TAG).addToBackStack(null).commit();
@@ -133,6 +143,8 @@ public class ScheduleListFragment extends DualPaneListFragment {
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
+        SimpleDateFormat formatDate = new SimpleDateFormat("EEEE dd/MM/yyyy");
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -142,14 +154,7 @@ public class ScheduleListFragment extends DualPaneListFragment {
             Calendar date = Calendar.getInstance();
             date.add(Calendar.DATE, position);
             CalendarUtils.zero(date);
-            String jour = (String) android.text.format.DateFormat.format(
-                    "EEEE " +
-                            android.text.format.DateFormat.DATE + android.text.format.DateFormat.DATE +
-                            "/" +
-                            android.text.format.DateFormat.MONTH + android.text.format.DateFormat.MONTH +
-                            "/" +
-                            android.text.format.DateFormat.YEAR + android.text.format.DateFormat.YEAR + android.text.format.DateFormat.YEAR + android.text.format.DateFormat.YEAR
-                    , date);
+            String jour = formatDate.format(date.getTime());
             jour = Character.toUpperCase(jour.charAt(0)) + jour.substring(1);
             return jour;
         }

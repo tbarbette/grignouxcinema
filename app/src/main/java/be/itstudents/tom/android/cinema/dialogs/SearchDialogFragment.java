@@ -8,9 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import be.itstudents.tom.android.cinema.Cinema;
 import be.itstudents.tom.android.cinema.R;
 
 
@@ -34,6 +40,10 @@ public class SearchDialogFragment extends DialogFragment {
         ImageView image = (ImageView) view.findViewById(R.id.image);
         image.setImageResource(android.R.drawable.ic_menu_search);
 
+        final CheckBox chkSauvenire = (CheckBox) view.findViewById(R.id.chkSauveniere);
+        final CheckBox chkChurchill = (CheckBox) view.findViewById(R.id.chkChurchill);
+        final CheckBox chkParc = (CheckBox) view.findViewById(R.id.chkParc);
+
         Button btn = (Button) view.findViewById(R.id.searchgo);
         btn.setText(R.string.searchgo);
         btn.setOnClickListener(new OnClickListener() {
@@ -42,12 +52,25 @@ public class SearchDialogFragment extends DialogFragment {
                 EditText text = (EditText) view.findViewById(R.id.text);
 
 
-                if (text.getText().toString().equals("")) {
+                Set<Long> cinemas = new HashSet<Long>();
+                if (chkSauvenire.isChecked())
+                    cinemas.add(Cinema.SAUVENIERE);
+                if (chkChurchill.isChecked())
+                    cinemas.add(Cinema.CHURCHILL);
+                if (chkParc.isChecked())
+                    cinemas.add(Cinema.PARC);
+                if (cinemas.isEmpty()) {
+                    Toast.makeText(getActivity(), "Vous devez sélectionner au moins un cinéma !", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (text.getText().toString().equals("") && cinemas.size() == 3) {
+                    Toast.makeText(getActivity(), "Recherche annulée car vous n'avez entré aucun filtre.", Toast.LENGTH_LONG).show();
                     dismiss();
                     return;
                 }
 
-                searchManager.doSearch(text.getText().toString());
+                searchManager.doSearch(text.getText().toString(), cinemas);
 
                 dismiss();
             }
@@ -56,7 +79,7 @@ public class SearchDialogFragment extends DialogFragment {
     }
 
     public interface SearchManager {
-        void doSearch(String pattern);
+        void doSearch(String pattern, Set<Long> cinemas);
     }
 
 }
