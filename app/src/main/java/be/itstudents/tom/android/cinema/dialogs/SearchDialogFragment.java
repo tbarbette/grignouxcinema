@@ -52,6 +52,7 @@ public class SearchDialogFragment extends DialogFragment {
                 EditText text = (EditText) view.findViewById(R.id.text);
 
 
+
                 Set<Long> cinemas = new HashSet<Long>();
                 if (chkSauvenire.isChecked())
                     cinemas.add(Cinema.SAUVENIERE);

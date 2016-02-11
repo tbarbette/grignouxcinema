@@ -3,6 +3,8 @@ package be.itstudents.tom.android.cinema.activity;
 import android.os.Bundle;
 
 import be.itstudents.tom.android.cinema.R;
+import be.itstudents.tom.android.cinema.multipane.DualPaneFragment;
+import be.itstudents.tom.android.cinema.multipane.DualPaneListFragment;
 
 public class ScheduleFragment extends DualPaneFragment {
 
@@ -22,7 +24,7 @@ public class ScheduleFragment extends DualPaneFragment {
 
     @Override
     protected int getContainerFragmentId() {
-        return R.id.schedule_fragment_container;
+        return R.id.schedule_fragment_list;
     }
 
     @Override

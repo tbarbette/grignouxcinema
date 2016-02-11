@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.datafetcher.FilmList;
+import be.itstudents.tom.android.cinema.multipane.DualPaneListFragment;
 
 public class FeaturedListFragment extends DualPaneListFragment {
 

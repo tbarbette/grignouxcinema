@@ -23,6 +23,7 @@ public class FilmDetailFragment extends Fragment {
     private ImageView mAffiche;
     private ImageView mYoutube;
     private ProgressBar mSpinner;
+    private AsyncTask<Film, Void, Film> asynctask = null;
 
     public static FilmDetailFragment newInstance(Film f) {
         FilmDetailFragment df = new FilmDetailFragment();
@@ -30,6 +31,15 @@ public class FilmDetailFragment extends Fragment {
         return df;
     }
 
+
+    @Override
+    public void onDestroy() {
+        if (asynctask != null)
+            asynctask.cancel(true);
+        super.onDestroy();
+    }
+
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,7 +83,7 @@ public class FilmDetailFragment extends Fragment {
         mContent.setVisibility(View.GONE);
         mAffiche.setVisibility(View.GONE);
         mYoutube.setVisibility(View.GONE);
-        new RetrieveInfoTask().execute(mFilm);
+        asynctask = new RetrieveInfoTask().execute(mFilm);
 
     }
 
@@ -101,6 +111,7 @@ public class FilmDetailFragment extends Fragment {
         }
 
         protected void onPostExecute(Film f) {
+            if (isCancelled()) return;
             if (f == null) return;
             mSpinner.setVisibility(View.GONE);
             mContent.setVisibility(View.VISIBLE);

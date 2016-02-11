@@ -1,4 +1,4 @@
-package be.itstudents.tom.android.cinema.activity;
+package be.itstudents.tom.android.cinema.multipane;
 
 import android.support.v4.app.Fragment;
 

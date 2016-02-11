@@ -1,6 +1,8 @@
 package be.itstudents.tom.android.cinema.activity;
 
 import be.itstudents.tom.android.cinema.R;
+import be.itstudents.tom.android.cinema.multipane.DualPaneFragment;
+import be.itstudents.tom.android.cinema.multipane.DualPaneListFragment;
 
 public class FeaturedFragment extends DualPaneFragment {
 

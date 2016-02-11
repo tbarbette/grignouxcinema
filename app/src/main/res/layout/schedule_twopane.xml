@@ -4,12 +4,12 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal">
 
+
     <FrameLayout
-        android:id="@+id/schedule_fragment_container"
+        android:id="@+id/schedule_fragment_list"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1" />
-
 
     <fragment
         android:id="@+id/schedule_film_detail_fragment"

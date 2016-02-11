@@ -24,6 +24,7 @@ import be.itstudents.tom.android.cinema.R;
 import be.itstudents.tom.android.cinema.Seance;
 import be.itstudents.tom.android.cinema.dialogs.SearchDialogFragment;
 import be.itstudents.tom.android.cinema.dialogs.SearchDialogFragment.SearchManager;
+import be.itstudents.tom.android.cinema.multipane.DualPaneListFragment;
 import be.itstudents.tom.android.cinema.service.CinemaProvider;
 import be.itstudents.tom.android.cinema.utils.CalendarUtils;
 
@@ -100,6 +101,7 @@ public class ScheduleListFragment extends DualPaneListFragment {
         mPager = (ViewPager) v.findViewById(R.id.schedule_list_pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        System.err.println("create view position" + mPosition);
         if (mPosition > 0)
             mPager.setCurrentItem(mPosition);
         return v;
@@ -108,6 +110,7 @@ public class ScheduleListFragment extends DualPaneListFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        System.err.println("save position" + ((mPager != null) ? mPager.getCurrentItem() : mPosition));
         if (mPager != null)
             outState.putInt("currentPosition", mPager.getCurrentItem());
         else
@@ -122,7 +125,9 @@ public class ScheduleListFragment extends DualPaneListFragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mPosition = savedInstanceState.getInt("currentPosition");
-        }
+            System.err.println("create position" + mPosition);
+        } else
+            System.err.println("create default");
         setHasOptionsMenu(true);
     }
 
